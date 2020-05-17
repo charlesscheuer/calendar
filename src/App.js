@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.scss";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+      <div className="row">
+        <h1>Next meetings</h1>
+        <p className="configure">configure calendars</p>
+      </div>
+      <div className="row">
+        <div className="row_start">
+          <p className="row_date">Today</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="row_divider"></div>
+      </div>
+      <div className="row">
+        <p className="time">12:00PM</p>
+        <p className="title">Stilt Standup</p>
+        <a className="join" href="#">
+          Join
         </a>
-      </header>
+      </div>
     </div>
   );
 }

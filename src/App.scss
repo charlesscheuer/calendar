@@ -1,0 +1,109 @@
+// FONT VARIABLES
+$font: "Cera Pro", sans-serif;
+
+@font-face {
+  font-family: "Cera Pro";
+  src: url("./CeraPro/CeraPro-Light.woff2") format("woff");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Cera Pro";
+  src: url("./CeraPro/CeraProRegular.woff2") format("woff");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Cera Pro";
+  src: url("./CeraPro/CeraProMedium.woff2") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Cera Pro";
+  src: url("./CeraPro/CeraPro-Bold.woff2") format("woff");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Cera Pro";
+  src: url("./CeraPro/CeraPro-Black.woff2") format("woff");
+  font-weight: 700;
+}
+
+// Colors:
+$dark: #333232;
+$light: #9e9ea7;
+$divider: #edf0f2;
+$blank: #fff;
+$primary: #108173;
+$secondary: #07508b;
+
+.App {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  font-family: $font;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  &_start {
+    justify-content: flex-start;
+  }
+  &_date {
+    font-family: $font;
+    color: $dark;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  &_divider {
+    height: 1px;
+    width: 100%;
+    background-color: $divider;
+  }
+}
+
+.configure {
+  font-family: $font;
+  color: $secondary;
+  text-decoration: underline;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+h1 {
+  font-family: $font;
+  font-weight: 600;
+}
+
+.time {
+  color: $light;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.title {
+  color: $dark;
+  font-size: 14px;
+}
+
+.join {
+  padding: 5px 42px;
+  background-color: $primary;
+  color: $blank;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  &:active,
+  &:visited {
+    text-decoration: none;
+    color: $blank;
+  }
+}
