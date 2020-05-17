@@ -34,6 +34,7 @@ $font: "Cera Pro", sans-serif;
 // Colors:
 $dark: #333232;
 $light: #9e9ea7;
+$grey-1: #6e6d7a;
 $divider: #edf0f2;
 $blank: #fff;
 $primary: #108173;
@@ -56,11 +57,16 @@ $secondary: #07508b;
   &_start {
     justify-content: flex-start;
   }
+  &_end {
+    justify-content: flex-end;
+    display: flex;
+  }
   &_date {
     font-family: $font;
     color: $dark;
     font-weight: 400;
     font-size: 14px;
+    margin-top: 0;
   }
   &_divider {
     height: 1px;
@@ -84,13 +90,16 @@ h1 {
 
 .time {
   color: $light;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
+  margin-right: 26px;
 }
 
 .title {
   color: $dark;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 500;
+  margin-right: auto;
 }
 
 .join {
@@ -101,9 +110,55 @@ h1 {
   text-decoration: none;
   border-radius: 5px;
   font-size: 14px;
+  transition: all 0.1s ease-in-out;
+  box-shadow: 0 2px 16px 0px rgba($primary, 0.2);
   &:active,
   &:visited {
     text-decoration: none;
     color: $blank;
   }
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 20px 0px rgba($primary, 0.3);
+  }
+}
+
+.cleanLink {
+  &:active,
+  &:visited {
+    text-decoration: none;
+    color: $secondary;
+  }
+}
+
+.help {
+  color: $light;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.welcome {
+  color: $primary;
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.description {
+  color: $dark;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.instruction {
+  color: $grey-1;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+ol {
+  padding-inline-start: 16px;
 }
