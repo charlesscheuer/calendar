@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 export default function Connected(props) {
   return (
@@ -15,39 +15,24 @@ export default function Connected(props) {
       <div className="row">
         <div className="row_divider"></div>
       </div>
-      <div className="row">
-        <p className="time">12:00PM</p>
-        <p className="title">Stilt Standup</p>
-        <a className="join" target="blank" href="#">
-          Join
-        </a>
-      </div>
-      <div className="row">
-        <div className="row_divider"></div>
-      </div>
-      <div className="row">
-        <p className="time">01:00PM</p>
-        <p className="title">User interview</p>
-      </div>
-      <div className="row">
-        <div className="row_start">
-          <p className="row_date">Tomorrow</p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="row_divider"></div>
-      </div>
-      <div className="row">
-        <p className="time">12:00PM</p>
-        <p className="title">Stilt Standup</p>
-      </div>
-      <div className="row">
-        <div className="row_divider"></div>
-      </div>
-      <div className="row">
-        <p className="time">01:00PM</p>
-        <p className="title">User interview</p>
-      </div>
+      {props.events.map((event) => {
+        return (
+          <Fragment>
+            <div className="row">
+              <p className="time">{event.start}</p>
+              <p className="title">{event.summary}</p>
+              {event.url ? (
+                <a className="join" target="blank" href={event.url}>
+                  Join
+                </a>
+              ) : null}
+            </div>
+            <div className="row">
+              <div className="row_divider"></div>
+            </div>
+          </Fragment>
+        );
+      })}
       <div className="row row_end">
         <div className="row_end">
           <p className="help">Need help?</p>
