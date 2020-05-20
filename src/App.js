@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 
 import Connected from "./Connected";
 import Onboarding from "./Onboarding";
@@ -9,30 +10,58 @@ import "./App.scss";
 /*global chrome*/
 
 function App() {
-  
-  console.log("rendering root...")
-  
+  console.log("rendering root...");
   let [calendars, setCalendars] = useState(null);
   let [events, setEvents] = useState(null);
+  let [todaysEvents, setTodaysEvents] = useState([]);
+  let [tomorrowsEvents, setTomorrowsEvents] = useState([]);
   let [uuid, setUuid] = useState(null);
-
   let [loaded, setLoaded] = useState(false);
 
+  var isToday = (datetime) => {
+    var dateObj = new Date(datetime);
+    var momentObj = moment(dateObj);
+    return momentObj.isSame(new Date(), "day");
+  };
+
+  var isTomorrow = (datetime) => {
+    var dateObj = new Date(datetime);
+    var momentObj = moment(dateObj);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return momentObj.isSame(tomorrow, "day");
+  };
+
   useEffect(() => {
-    chrome.storage.sync.get(["events"], (result) => {
-      if (Object.keys(result).length !== 0) setEvents(result["events"]);
-    });
+    chrome.storage &&
+      chrome.storage.sync.get(["events"], (result) => {
+        if (Object.keys(result).length !== 0 && result["events"] !== events) {
+          const useThis = result["events"];
+          console.log(useThis, "u suck jackass");
+          useThis.forEach((event) => {
+            if (isToday(event.start)) {
+              setTodaysEvents([...todaysEvents, event]);
+            } else if (isTomorrow(event.start)) {
+              setTomorrowsEvents([...tomorrowsEvents, event]);
+            }
+          });
+          setEvents(result["events"]);
+        }
+      });
 
-    chrome.storage.sync.get(["uuid"], (result) => {
-      if (Object.keys(result).length !== 0) setUuid(result["uuid"]);
-    });
+    chrome.storage &&
+      chrome.storage.sync.get(["uuid"], (result) => {
+        if (Object.keys(result).length !== 0) setUuid(result["uuid"]);
+      });
 
-    chrome.storage.sync.get(["calendars"], (result) => {
-      if (Object.keys(result).length !== 0) setCalendars(result["calendars"]);
-    });
+    chrome.storage &&
+      chrome.storage.sync.get(["calendars"], (result) => {
+        if (Object.keys(result).length !== 0) setCalendars(result["calendars"]);
+      });
 
     setLoaded(true);
-  }, []);
+  }, [events, todaysEvents, tomorrowsEvents]);
 
   // const getEvents = (uuid) => {
   //   var api = backend_url + `/refresh/events/${uuid}`;
@@ -78,10 +107,12 @@ function App() {
   //       setCalloaded(true);
   //     });
   // };
-
   return loaded ? (
     uuid !== null ? (
-      <Connected events={events} />
+      <Connected
+        todaysEvents={todaysEvents}
+        tomorrowsEvents={tomorrowsEvents}
+      />
     ) : (
       <Onboarding
         setUuid={setUuid}

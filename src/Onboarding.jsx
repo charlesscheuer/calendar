@@ -20,9 +20,8 @@ const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
 
 export default function Onboarding(props) {
-  
-  console.log("rendering onboarding...")
-  
+  console.log("rendering onboarding...");
+
   const uuid = "karthik-test6";
   const cal_id = "gcal-1";
 
@@ -53,9 +52,10 @@ export default function Onboarding(props) {
 
   // Poll for connection status
   useInterval(async () => {
-    chrome.storage.sync.get(["connected"], async (result) => {
-      if (result["connected"]) await fetchConnectionStatus(uuid, cal_id);
-    });
+    chrome.storage &&
+      chrome.storage.sync.get(["connected"], async (result) => {
+        if (result["connected"]) await fetchConnectionStatus(uuid, cal_id);
+      });
   }, 1000);
 
   const connectCalendar = () => {
