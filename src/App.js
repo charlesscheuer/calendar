@@ -19,10 +19,13 @@ class App extends Component {
       events: null,
       uuid: null,
       loaded: null,
+      // refresh: true,
     };
   }
 
   componentWillMount = () => {
+    var todays = []
+    var tomorrows = []
     chrome.storage &&
       chrome.storage.sync.get(["events"], (result) => {
         if (Object.keys(result).length !== 0) {
@@ -30,13 +33,13 @@ class App extends Component {
           console.log(useThis, "u suck jackass");
           useThis.forEach((event) => {
             if (this.isToday(event.start)) {
-              const newTodays = [...this.state.todaysEvents, event];
-              this.setState({ todaysEvents: newTodays });
+              todays = [...todays, event];
             } else if (this.isTomorrow(event.start)) {
-              const newTomorrows = [...this.state.todaysEvents, event];
-              this.setState({ tomorrowsEvents: newTomorrows });
+              tomorrows = [...tomorrows, event];
             }
           });
+          this.setState({ todaysEvents: todays });
+          this.setState({ tomorrowsEvents: tomorrows });
         }
       });
 
