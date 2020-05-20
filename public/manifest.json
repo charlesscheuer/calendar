@@ -8,7 +8,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://imfree.fyi/shownext"],
       "css": ["/static/css/main.css"],
       "js": ["/static/js/main.js"]
     }
