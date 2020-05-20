@@ -18,10 +18,9 @@ const fetchLatestEvents = (uuid) => {
     .then(function (data) {
       
       if (data.length !== 0) {
-        
         console.log("refreshing events...")
-        
-        const events = data[0]['gcal-1']
+
+        let events = data.map(calendar => calendar[Object.keys(calendar)[0]])[0]
         chrome.storage.sync.set({ events: events }, function () {});
       }
     });
