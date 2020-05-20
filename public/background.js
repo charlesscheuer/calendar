@@ -1,6 +1,5 @@
 /*global chrome*/
 
-
 const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
 
@@ -17,8 +16,6 @@ const fetchLatestEvents = (uuid) => {
       return response.json();
     })
     .then(function (data) {
-      
-        console.log("finn..", data)
       
       if (data.length !== 0) {
         
