@@ -24,14 +24,14 @@ var isTomorrow = (datetime) => {
 
 export default function Connected(props) {
   // console.log("rendering connected...")
-
+  const { todaysEvents, tomorrowsEvents } = props;
   return (
     <div className="App">
       <div className="row">
         <h1>Next meetings</h1>
         <p className="configure">configure calendars</p>
       </div>
-      {props.todaysEvents.length > 0 && [
+      {todaysEvents.length > 0 && [
         <div className="row">
           <div className="row_start">
             <p className="row_date">Today</p>
@@ -42,8 +42,8 @@ export default function Connected(props) {
         </div>,
       ]}
 
-      {props.todaysEvents.length > 0 &&
-        props.todaysEvents.map((event) => {
+      {todaysEvents.length > 0 &&
+        todaysEvents.map((event, index) => {
           return (
             <Fragment>
               <div className="row">
@@ -55,14 +55,16 @@ export default function Connected(props) {
                   </a>
                 ) : null}
               </div>
-              <div className="row">
-                <div className="row_divider"></div>
-              </div>
+              {index !== todaysEvents.length - 1 && (
+                <div className="row">
+                  <div className="row_divider"></div>
+                </div>
+              )}
             </Fragment>
           );
         })}
 
-      {props.tomorrowsEvents.length > 0 && [
+      {tomorrowsEvents.length > 0 && [
         <div className="row">
           <div className="row_start">
             <p className="row_date">Tomorrow</p>
@@ -72,8 +74,8 @@ export default function Connected(props) {
           <div className="row_divider"></div>
         </div>,
       ]}
-      {props.tomorrowsEvents.length > 0 &&
-        props.tomorrowsEvents.map((event) => {
+      {tomorrowsEvents.length > 0 &&
+        tomorrowsEvents.map((event, index) => {
           return (
             <Fragment>
               <div className="row">
@@ -85,9 +87,11 @@ export default function Connected(props) {
                   </a>
                 ) : null}
               </div>
-              <div className="row">
-                <div className="row_divider"></div>
-              </div>
+              {index !== tomorrowsEvents.length - 1 && (
+                <div className="row">
+                  <div className="row_divider"></div>
+                </div>
+              )}
             </Fragment>
           );
         })}

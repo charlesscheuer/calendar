@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import moment from "moment";
 
 import Connected from "./Connected";
@@ -9,22 +9,58 @@ import "./App.scss";
 
 /*global chrome*/
 
-function App() {
-  console.log("rendering root...");
-  let [calendars, setCalendars] = useState(null);
-  let [events, setEvents] = useState(null);
-  let [todaysEvents, setTodaysEvents] = useState([]);
-  let [tomorrowsEvents, setTomorrowsEvents] = useState([]);
-  let [uuid, setUuid] = useState(null);
-  let [loaded, setLoaded] = useState(false);
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      todaysEvents: [],
+      tomorrowsEvents: [],
+      calendars: null,
+      events: null,
+      uuid: null,
+      loaded: null,
+    };
+  }
 
-  var isToday = (datetime) => {
+  componentWillMount = () => {
+    chrome.storage &&
+      chrome.storage.sync.get(["events"], (result) => {
+        if (Object.keys(result).length !== 0) {
+          const useThis = result["events"];
+          console.log(useThis, "u suck jackass");
+          useThis.forEach((event) => {
+            if (this.isToday(event.start)) {
+              const newTodays = [...this.state.todaysEvents, event];
+              this.setState({ todaysEvents: newTodays });
+            } else if (this.isTomorrow(event.start)) {
+              const newTomorrows = [...this.state.todaysEvents, event];
+              this.setState({ tomorrowsEvents: newTomorrows });
+            }
+          });
+        }
+      });
+
+    chrome.storage &&
+      chrome.storage.sync.get(["uuid"], (result) => {
+        if (Object.keys(result).length !== 0)
+          this.setState({ uuid: result["uuid"] });
+      });
+
+    chrome.storage &&
+      chrome.storage.sync.get(["calendars"], (result) => {
+        if (Object.keys(result).length !== 0)
+          this.setState({ calendars: result["calendars"] });
+      });
+    this.setState({ loaded: true });
+  };
+
+  isToday = (datetime) => {
     var dateObj = new Date(datetime);
     var momentObj = moment(dateObj);
     return momentObj.isSame(new Date(), "day");
   };
 
-  var isTomorrow = (datetime) => {
+  isTomorrow = (datetime) => {
     var dateObj = new Date(datetime);
     var momentObj = moment(dateObj);
     const today = new Date();
@@ -33,96 +69,37 @@ function App() {
     return momentObj.isSame(tomorrow, "day");
   };
 
-  useEffect(() => {
-    chrome.storage &&
-      chrome.storage.sync.get(["events"], (result) => {
-        if (Object.keys(result).length !== 0 && result["events"] !== events) {
-          const useThis = result["events"];
-          console.log(useThis, "u suck jackass");
-          useThis.forEach((event) => {
-            if (isToday(event.start)) {
-              setTodaysEvents([...todaysEvents, event]);
-            } else if (isTomorrow(event.start)) {
-              setTomorrowsEvents([...tomorrowsEvents, event]);
-            }
-          });
-          setEvents(result["events"]);
-        }
-      });
+  setUuid = (uuid) => {
+    this.setState({ uuid: uuid });
+  };
 
-    chrome.storage &&
-      chrome.storage.sync.get(["uuid"], (result) => {
-        if (Object.keys(result).length !== 0) setUuid(result["uuid"]);
-      });
+  setCalendars = (calendars) => {
+    this.setState({ calendars: calendars });
+  };
 
-    chrome.storage &&
-      chrome.storage.sync.get(["calendars"], (result) => {
-        if (Object.keys(result).length !== 0) setCalendars(result["calendars"]);
-      });
+  setEvents = (events) => {
+    this.setState({ events: events });
+  };
 
-    setLoaded(true);
-  }, [events, todaysEvents, tomorrowsEvents]);
-
-  // const getEvents = (uuid) => {
-  //   var api = backend_url + `/refresh/events/${uuid}`;
-
-  //   fetch(api, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       return response.json();
-  //     })
-  //     .then(function (data) {
-  //       var events = [];
-  //       for (let i = 0; i < data.length; i++) {
-  //         let elem = data[i];
-  //         let cal = Object.keys(data[i])[0];
-  //         events.push.apply(events, elem[cal]);
-  //       }
-
-  //       setEvents(events);
-  //       setEvloaded(true);
-  //     });
-  // };
-
-  // const getCalendars = (uuid) => {
-
-  //   var api = backend_url + `calendars/${uuid}`;
-
-  //   fetch(api, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       return response.json();
-  //     })
-  //     .then(function (data) {
-  //       console.log(data);
-  //       if (data) setCalendars(data);
-  //       setCalloaded(true);
-  //     });
-  // };
-  return loaded ? (
-    uuid !== null ? (
-      <Connected
-        todaysEvents={todaysEvents}
-        tomorrowsEvents={tomorrowsEvents}
-      />
+  render() {
+    const { loaded, uuid, todaysEvents, tomorrowsEvents } = this.state;
+    console.log(todaysEvents);
+    return loaded ? (
+      uuid !== null ? (
+        <Connected
+          todaysEvents={todaysEvents}
+          tomorrowsEvents={tomorrowsEvents}
+        />
+      ) : (
+        <Onboarding
+          setUuid={this.setUuid}
+          setCalendars={this.setCalendars}
+          setEvents={this.setEvents}
+        />
+      )
     ) : (
-      <Onboarding
-        setUuid={setUuid}
-        setCalendars={setCalendars}
-        setEvents={setEvents}
-      />
-    )
-  ) : (
-    <Spinner />
-  );
+      <Spinner />
+    );
+  }
 }
-
 export default App;

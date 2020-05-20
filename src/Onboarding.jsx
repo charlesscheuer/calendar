@@ -52,6 +52,7 @@ export default function Onboarding(props) {
 
   // Poll for connection status
   useInterval(async () => {
+    console.log("bastard");
     chrome.storage &&
       chrome.storage.sync.get(["connected"], async (result) => {
         if (result["connected"]) await fetchConnectionStatus(uuid, cal_id);
