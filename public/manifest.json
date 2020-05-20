@@ -12,5 +12,6 @@
       "css": ["/static/css/main.css"],
       "js": ["/static/js/main.js"]
     }
-  ]
+  ],
+  "permissions": ["notifications", "storage"]
 }
