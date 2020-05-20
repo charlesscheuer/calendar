@@ -83,7 +83,7 @@ class App extends Component {
 
   render() {
     const { loaded, uuid, todaysEvents, tomorrowsEvents } = this.state;
-    console.log(todaysEvents);
+    console.log("Rendering root...");
     return loaded ? (
       uuid !== null ? (
         <Connected

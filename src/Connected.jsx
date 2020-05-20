@@ -7,23 +7,9 @@ var formatDateTime = (datetime) => {
 
   return momentObj.format("h:mm A");
 };
-var isToday = (datetime) => {
-  var dateObj = new Date(datetime);
-  var momentObj = moment(dateObj);
-  return momentObj.isSame(new Date(), "day");
-};
-
-var isTomorrow = (datetime) => {
-  var dateObj = new Date(datetime);
-  var momentObj = moment(dateObj);
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  return momentObj.isSame(tomorrow, "day");
-};
 
 export default function Connected(props) {
-  // console.log("rendering connected...")
+  console.log("rendering connected...")
   const { todaysEvents, tomorrowsEvents } = props;
   return (
     <div className="App">
