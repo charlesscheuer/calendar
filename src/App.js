@@ -18,8 +18,7 @@ class App extends Component {
       calendars: null,
       events: null,
       uuid: null,
-      loaded: null,
-      // refresh: true,
+      loaded: null
     };
   }
 
