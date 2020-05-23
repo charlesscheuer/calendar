@@ -9,13 +9,15 @@ var formatDateTime = (datetime) => {
 };
 
 export default function Connected(props) {
-  console.log("rendering connected...")
+  console.log("rendering connected...");
   const { todaysEvents, tomorrowsEvents } = props;
   return (
     <div className="App">
       <div className="row">
         <h1>Next meetings</h1>
-        <p className="configure">configure calendars</p>
+        <p onClick={() => props.configureCalendars()} className="configure">
+          configure calendars
+        </p>
       </div>
       {todaysEvents.length > 0 && [
         <div className="row">

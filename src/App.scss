@@ -81,6 +81,9 @@ $secondary: #07508b;
   text-decoration: underline;
   font-weight: 300;
   cursor: pointer;
+  &::selection {
+    background-color: transparent;
+  }
 }
 
 h1 {

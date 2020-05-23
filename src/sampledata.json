@@ -1,0 +1,334 @@
+[
+  {
+    "cal1": [
+      {
+        "start": "2020-05-22T01:00:00.0000000",
+        "end": "2020-05-22T01:30:00.0000000",
+        "url": "https://join.skype.com/yMt8gfd3bokt",
+        "summary": null
+      },
+      {
+        "start": "2020-05-21T23:00:00.0000000",
+        "end": "2020-05-22T01:00:00.0000000",
+        "url": "us04web.zoom.us/j/5738066010?pwd=V0M4bk5TaFVkV1dtNlk4NEJIendWQT09",
+        "summary": "Karthik Kalyan's Zoom Meeting"
+      },
+      {
+        "start": "2020-05-23T15:00:00.0000000",
+        "end": "2020-05-23T15:30:00.0000000",
+        "url": null,
+        "summary": "testtt"
+      },
+      {
+        "start": "2020-05-22T15:00:00.0000000",
+        "end": "2020-05-22T15:30:00.0000000",
+        "url": "",
+        "summary": "test"
+      }
+    ]
+  },
+  {
+    "cal6": [
+      {
+        "start": "2020-05-25T09:00:00-07:00",
+        "end": "2020-05-25T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-05-25T10:00:00-07:00",
+        "end": "2020-05-25T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-05-26T09:00:00-07:00",
+        "end": "2020-05-26T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-05-26T15:00:00-07:00",
+        "end": "2020-05-26T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-05-27T09:00:00-07:00",
+        "end": "2020-05-27T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-05-28T09:00:00-07:00",
+        "end": "2020-05-28T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-05-29T09:00:00-07:00",
+        "end": "2020-05-29T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-01T09:00:00-07:00",
+        "end": "2020-06-01T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-06-01T10:00:00-07:00",
+        "end": "2020-06-01T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-06-02T09:00:00-07:00",
+        "end": "2020-06-02T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-02T15:00:00-07:00",
+        "end": "2020-06-02T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-06-03T09:00:00-07:00",
+        "end": "2020-06-03T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-04T09:00:00-07:00",
+        "end": "2020-06-04T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-05T09:00:00-07:00",
+        "end": "2020-06-05T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-08T09:00:00-07:00",
+        "end": "2020-06-08T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-06-08T10:00:00-07:00",
+        "end": "2020-06-08T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-06-09T09:00:00-07:00",
+        "end": "2020-06-09T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-09T15:00:00-07:00",
+        "end": "2020-06-09T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-06-10T09:00:00-07:00",
+        "end": "2020-06-10T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-11T09:00:00-07:00",
+        "end": "2020-06-11T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-12T09:00:00-07:00",
+        "end": "2020-06-12T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-15T09:00:00-07:00",
+        "end": "2020-06-15T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-06-15T10:00:00-07:00",
+        "end": "2020-06-15T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-06-16T09:00:00-07:00",
+        "end": "2020-06-16T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-16T15:00:00-07:00",
+        "end": "2020-06-16T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-06-17T09:00:00-07:00",
+        "end": "2020-06-17T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-18T09:00:00-07:00",
+        "end": "2020-06-18T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-19T09:00:00-07:00",
+        "end": "2020-06-19T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-22T09:00:00-07:00",
+        "end": "2020-06-22T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-06-22T10:00:00-07:00",
+        "end": "2020-06-22T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-06-23T09:00:00-07:00",
+        "end": "2020-06-23T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-23T15:00:00-07:00",
+        "end": "2020-06-23T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-06-24T09:00:00-07:00",
+        "end": "2020-06-24T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-25T09:00:00-07:00",
+        "end": "2020-06-25T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-26T09:00:00-07:00",
+        "end": "2020-06-26T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-29T09:00:00-07:00",
+        "end": "2020-06-29T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-06-29T10:00:00-07:00",
+        "end": "2020-06-29T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-06-30T09:00:00-07:00",
+        "end": "2020-06-30T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-06-30T15:00:00-07:00",
+        "end": "2020-06-30T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-07-01T09:00:00-07:00",
+        "end": "2020-07-01T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-02T09:00:00-07:00",
+        "end": "2020-07-02T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-03T09:00:00-07:00",
+        "end": "2020-07-03T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-06T09:00:00-07:00",
+        "end": "2020-07-06T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      },
+      {
+        "start": "2020-07-06T10:00:00-07:00",
+        "end": "2020-07-06T10:30:00-07:00",
+        "url": "https://meet.google.com/nne-omoa-gdc",
+        "summary": "FE Planning meeting"
+      },
+      {
+        "start": "2020-07-07T09:00:00-07:00",
+        "end": "2020-07-07T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-07T15:00:00-07:00",
+        "end": "2020-07-07T15:30:00-07:00",
+        "url": "https://meet.google.com/nzr-gazx-mid",
+        "summary": "Weekly 1:1"
+      },
+      {
+        "start": "2020-07-08T09:00:00-07:00",
+        "end": "2020-07-08T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-09T09:00:00-07:00",
+        "end": "2020-07-09T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-10T09:00:00-07:00",
+        "end": "2020-07-10T09:30:00-07:00",
+        "url": "https://meet.google.com/bxo-qnbs-xfr",
+        "summary": "Engineering standup"
+      },
+      {
+        "start": "2020-07-13T09:00:00-07:00",
+        "end": "2020-07-13T10:00:00-07:00",
+        "url": "https://meet.google.com/bgd-umgi-yua",
+        "summary": "Weekly planning meeting - Eng."
+      }
+    ]
+  }
+]

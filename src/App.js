@@ -6,6 +6,7 @@ import Onboarding from "./Onboarding";
 import Spinner from "./Spinner";
 
 import "./App.scss";
+import ConfigureCalendars from "./ConfigureCalendars";
 
 /*global chrome*/
 
@@ -17,6 +18,7 @@ class App extends Component {
       tomorrowsEvents: [],
       calendars: null,
       events: null,
+      configureCalendars: false,
       uuid: null,
       loaded: null,
     };
@@ -29,7 +31,6 @@ class App extends Component {
       chrome.storage.sync.get(["events"], (result) => {
         if (Object.keys(result).length !== 0) {
           const useThis = result["events"];
-          console.log(useThis, "u suck jackass");
           useThis.forEach((event) => {
             if (this.isToday(event.start)) {
               todays = [...todays, event];
@@ -59,7 +60,7 @@ class App extends Component {
   isToday = (datetime) => {
     var dateObj = new Date(datetime);
     var momentObj = moment(dateObj);
-    return momentObj.isSame(new Date(), "day");
+    return momentObj.isSame(new Date(), "day") && momentObj.isAfter();
   };
 
   isTomorrow = (datetime) => {
@@ -85,25 +86,53 @@ class App extends Component {
 
   // make notifications
 
-  render() {
-    const { loaded, uuid, todaysEvents, tomorrowsEvents } = this.state;
-    console.log("Rendering root...");
-    return loaded ? (
-      uuid !== null ? (
-        <Connected
-          todaysEvents={todaysEvents}
-          tomorrowsEvents={tomorrowsEvents}
-        />
-      ) : (
+  renderProperView = () => {
+    const {
+      loaded,
+      uuid,
+      todaysEvents,
+      tomorrowsEvents,
+      configureCalendars,
+      calendars,
+    } = this.state;
+    if (loaded && uuid !== null) {
+      if (configureCalendars) {
+        return (
+          <ConfigureCalendars
+            calendars={calendars}
+            configureCalendars={() =>
+              this.setState({ configureCalendars: false })
+            }
+          />
+        );
+      } else {
+        return (
+          <Connected
+            todaysEvents={todaysEvents}
+            configureCalendars={() => {
+              console.log("reached me");
+              this.setState({ configureCalendars: true });
+            }}
+            tomorrowsEvents={tomorrowsEvents}
+          />
+        );
+      }
+    } else if (loaded) {
+      return (
         <Onboarding
           setUuid={this.setUuid}
           setCalendars={this.setCalendars}
           setEvents={this.setEvents}
         />
-      )
-    ) : (
-      <Spinner />
-    );
+      );
+    } else {
+      return <Spinner />;
+    }
+  };
+
+  render() {
+    console.log(this.state.uuid);
+    return this.renderProperView();
   }
 }
 export default App;

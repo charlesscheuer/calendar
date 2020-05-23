@@ -16,18 +16,23 @@ const fetchLatestEvents = (uuid) => {
       return response.json();
     })
     .then(function (data) {
-      
       if (data.length !== 0) {
-        console.log("refreshing events...")
-
-        let events = data.map(calendar => calendar[Object.keys(calendar)[0]])[0]
+        console.log("refreshing events...");
+        let events = [];
+        // data.forEach((calendar) => {
+        //   // data is an array of objects
+        //   // each object is named like gcal-1
+        //   // we want all the elements of that pushed to events
+        //   console.log(calendar);
+        //   events.push(calendar[Object.keys(calendar)[0]]);
+        // });
+        // console.log(events);
         chrome.storage.sync.set({ events: events }, function () {});
       }
     });
 };
 
 chrome.storage &&
-chrome.storage.sync.get(["uuid"], (result) => {
-  if (Object.keys(result).length !== 0) fetchLatestEvents(result["uuid"]);
-});
-
+  chrome.storage.sync.get(["uuid"], (result) => {
+    if (Object.keys(result).length !== 0) fetchLatestEvents(result["uuid"]);
+  });
