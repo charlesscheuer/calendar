@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 
-// import GoogleCalendarLogo from "./Logos/Google_Calendar.png";
-// import OutlookLogo from "./Logos/Microsoft_Outlook_2013_logo.png";
-// saving this here for future
+import GoogleCalendarLogo from "./Logos/Google_Calendar.png";
+import OutlookLogo from "./Logos/Microsoft_Outlook_2013_logo.png";
 
 const list = [
   "Connect with google calendar",
@@ -10,9 +9,19 @@ const list = [
   "Click our extension icon to check your next calls!",
 ];
 
-// const logos = [GoogleCalendarLogo];
+const logos = [GoogleCalendarLogo, OutlookLogo];
 
 /*global chrome*/
+// <li className="instruction">
+//               <a
+//                 onClick={() => this.connectCalendar()}
+//                 className="cleanLink"
+//                 href="#0"
+//               >
+//                 Connect
+//               </a>{" "}
+//               your google calendar
+//             </li>
 
 const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
@@ -122,14 +131,23 @@ export default class Onboarding extends Component {
         <div className="row row_start">
           <ol>
             <li className="instruction">
-              <a
-                onClick={() => this.connectCalendar()}
-                className="cleanLink"
-                href="#0"
-              >
-                Connect
-              </a>{" "}
-              your google calendar
+              <div>Connect your calendar:</div>
+              <div className="logos">
+                {logos.map((logo, index) => {
+                  return (
+                    <img
+                      src={logo}
+                      className="logos_img"
+                      onClick={() => this.connectCalendar()}
+                      alt={
+                        index === 0
+                          ? "Connect Google calendar"
+                          : "Connect Outlook calendar"
+                      }
+                    />
+                  );
+                })}
+              </div>
             </li>
             <li className="instruction">
               Allow notifications if you want reminders

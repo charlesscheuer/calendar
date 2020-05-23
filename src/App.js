@@ -18,13 +18,13 @@ class App extends Component {
       calendars: null,
       events: null,
       uuid: null,
-      loaded: null
+      loaded: null,
     };
   }
 
   componentWillMount = () => {
-    var todays = []
-    var tomorrows = []
+    var todays = [];
+    var tomorrows = [];
     chrome.storage &&
       chrome.storage.sync.get(["events"], (result) => {
         if (Object.keys(result).length !== 0) {
@@ -82,6 +82,8 @@ class App extends Component {
   setEvents = (events) => {
     this.setState({ events: events });
   };
+
+  // make notifications
 
   render() {
     const { loaded, uuid, todaysEvents, tomorrowsEvents } = this.state;
