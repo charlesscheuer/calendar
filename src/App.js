@@ -31,7 +31,7 @@ class App extends Component {
       chrome.storage.sync.get(["events"], (result) => {
         if (Object.keys(result).length !== 0) {
           const useThis = result["events"];
-          useThis.forEach((event) => {
+          useThis[0].forEach((event) => {
             if (this.isToday(event.start)) {
               todays = [...todays, event];
             } else if (this.isTomorrow(event.start)) {
