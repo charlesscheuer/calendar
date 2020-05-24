@@ -8,6 +8,9 @@ import Spinner from "./Spinner";
 import "./App.scss";
 import ConfigureCalendars from "./ConfigureCalendars";
 
+const backend_url =
+  "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
+
 /*global chrome*/
 
 class App extends Component {
@@ -30,8 +33,7 @@ class App extends Component {
     chrome.storage &&
       chrome.storage.sync.get(["events"], (result) => {
         if (Object.keys(result).length !== 0) {
-          const useThis = result["events"];
-          useThis[0].forEach((event) => {
+          result["events"].forEach((event) => {
             if (this.isToday(event.start)) {
               todays = [...todays, event];
             } else if (this.isTomorrow(event.start)) {
@@ -51,7 +53,7 @@ class App extends Component {
 
     chrome.storage &&
       chrome.storage.sync.get(["calendars"], (result) => {
-        if (Object.keys(result).length !== 0)
+        if (result["calendars"].length > 0)
           this.setState({ calendars: result["calendars"] });
       });
     this.setState({ loaded: true });
@@ -70,6 +72,26 @@ class App extends Component {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     return momentObj.isSame(tomorrow, "day");
+  };
+
+  delete = (id) => {
+    const { uuid } = this.state;
+    let body = {
+      cal_id: id,
+      disconnect: true,
+    };
+    var api = backend_url + `calendars/${uuid}`;
+
+    fetch(api, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(function (response) {
+      console.log("RESPONSE: ", response);
+      return response.json();
+    });
   };
 
   setUuid = (uuid) => {
@@ -100,6 +122,7 @@ class App extends Component {
         return (
           <ConfigureCalendars
             calendars={calendars}
+            delete={this.delete}
             configureCalendars={() =>
               this.setState({ configureCalendars: false })
             }
@@ -110,7 +133,6 @@ class App extends Component {
           <Connected
             todaysEvents={todaysEvents}
             configureCalendars={() => {
-              console.log("reached me");
               this.setState({ configureCalendars: true });
             }}
             tomorrowsEvents={tomorrowsEvents}
@@ -131,7 +153,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.uuid);
     return this.renderProperView();
   }
 }
