@@ -28,7 +28,6 @@ const fetchLatestEvents = (uuid) => {
             events.push(event);
           });
         });
-        console.log(calendars, "CALENDARS");
         chrome.storage.sync.set({ events }, function () {});
         chrome.storage.sync.set({ calendars }, function () {});
       }

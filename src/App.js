@@ -76,12 +76,12 @@ class App extends Component {
 
   delete = (id) => {
     const { uuid } = this.state;
+    console.log("reached delete function");
     let body = {
       cal_id: id,
       disconnect: true,
     };
     var api = backend_url + `calendars/${uuid}`;
-
     fetch(api, {
       method: "POST",
       body: JSON.stringify(body),
@@ -89,7 +89,15 @@ class App extends Component {
         "Content-Type": "application/json",
       },
     }).then(function (response) {
-      console.log("RESPONSE: ", response);
+      console.log("RESPONSE in delete: ", response);
+      chrome.storage &&
+        chrome.storage.sync.get(["calendars"], (result) => {
+          delete result.calendars[id];
+          console.log(result.calendars, "DELETED: ");
+          chrome.storage.sync.set({ calendars: result }, function () {
+            console.log(result, "FROM CALLBACK");
+          });
+        });
       return response.json();
     });
   };
