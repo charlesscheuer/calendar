@@ -17,46 +17,53 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      todaysEvents: [],
-      tomorrowsEvents: [],
-      calendars: null,
-      events: null,
+      calendars: this.getCalendars(),
+      events: this.getEvents(),
       configureCalendars: false,
-      uuid: null,
-      loaded: null,
+      uuid: this.getUuid(),
+      loaded: true,
     };
   }
 
-  componentWillMount = () => {
-    var todays = [];
-    var tomorrows = [];
+  getEvents = () => {
+    let events = {
+      todays: [],
+      tomorrows: [],
+    };
     chrome.storage &&
       chrome.storage.sync.get(["events"], (result) => {
-        if (Object.keys(result).length !== 0) {
+        if (Object.keys(result) && Object.keys(result).length !== 0) {
+          console.log("reached inner get events");
           result["events"].forEach((event) => {
             if (this.isToday(event.start)) {
-              todays = [...todays, event];
+              events.todays = [...events.todays, event];
             } else if (this.isTomorrow(event.start)) {
-              tomorrows = [...tomorrows, event];
+              events.tomorrows = [...events.tomorrows, event];
             }
           });
-          this.setState({ todaysEvents: todays });
-          this.setState({ tomorrowsEvents: tomorrows });
+          return events;
+        } else {
+          return null;
         }
       });
+  };
 
+  getUuid = () => {
     chrome.storage &&
       chrome.storage.sync.get(["uuid"], (result) => {
-        if (Object.keys(result).length !== 0)
-          this.setState({ uuid: result["uuid"] });
+        if (Object.keys(result) && Object.keys(result).length !== 0)
+          return result["uuid"];
+        return null;
       });
+  };
 
+  getCalendars = () => {
     chrome.storage &&
       chrome.storage.sync.get(["calendars"], (result) => {
-        if (result["calendars"].length > 0)
-          this.setState({ calendars: result["calendars"] });
+        if (result["calendars"] && result["calendars"].length > 0)
+          return result["calendars"];
+        return null;
       });
-    this.setState({ loaded: true });
   };
 
   isToday = (datetime) => {
@@ -76,7 +83,6 @@ class App extends Component {
 
   delete = (id) => {
     const { uuid } = this.state;
-    console.log("reached delete function");
     let body = {
       cal_id: id,
       disconnect: true,
@@ -89,15 +95,7 @@ class App extends Component {
         "Content-Type": "application/json",
       },
     }).then(function (response) {
-      console.log("RESPONSE in delete: ", response);
-      chrome.storage &&
-        chrome.storage.sync.get(["calendars"], (result) => {
-          delete result.calendars[id];
-          console.log(result.calendars, "DELETED: ");
-          chrome.storage.sync.set({ calendars: result }, function () {
-            console.log(result, "FROM CALLBACK");
-          });
-        });
+      chrome.storage && chrome.storage.sync.clear();
       return response.json();
     });
   };
@@ -117,15 +115,9 @@ class App extends Component {
   // make notifications
 
   renderProperView = () => {
-    const {
-      loaded,
-      uuid,
-      todaysEvents,
-      tomorrowsEvents,
-      configureCalendars,
-      calendars,
-    } = this.state;
-    if (loaded && uuid !== null) {
+    const { loaded, uuid, events, configureCalendars, calendars } = this.state;
+    console.log(calendars, "CALENDARS FROM STATE");
+    if (this.getUuid() !== null) {
       if (configureCalendars) {
         return (
           <ConfigureCalendars
@@ -139,15 +131,15 @@ class App extends Component {
       } else {
         return (
           <Connected
-            todaysEvents={todaysEvents}
+            todaysEvents={events && events.todays}
             configureCalendars={() => {
               this.setState({ configureCalendars: true });
             }}
-            tomorrowsEvents={tomorrowsEvents}
+            tomorrowsEvents={events && events.tomorrows}
           />
         );
       }
-    } else if (loaded) {
+    } else {
       return (
         <Onboarding
           setUuid={this.setUuid}
@@ -155,8 +147,6 @@ class App extends Component {
           setEvents={this.setEvents}
         />
       );
-    } else {
-      return <Spinner />;
     }
   };
 

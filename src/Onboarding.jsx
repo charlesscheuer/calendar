@@ -38,7 +38,6 @@ export default class Onboarding extends Component {
 
   fetchConnectionStatus = async (uuid, cal_id) => {
     var api = backend_url + `google/connect/${uuid}/${cal_id}`;
-
     var setEvents = this.props.setEvents;
     var setUuid = this.props.setUuid;
     fetch(api, {
