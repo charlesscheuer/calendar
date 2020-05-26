@@ -32,12 +32,13 @@ export default class Onboarding extends Component {
     console.log("rendering onboarding...");
     this.state = {
       uuid: "someuser",
-      cal_id: "gcal-1",
+      cal_id: "ms-1",
     };
   }
 
   fetchConnectionStatus = async (uuid, cal_id) => {
     var api = backend_url + `google/connect/${uuid}/${cal_id}`;
+
     var setEvents = this.props.setEvents;
     var setUuid = this.props.setUuid;
     fetch(api, {
@@ -87,7 +88,7 @@ export default class Onboarding extends Component {
     chrome.storage.sync.set({ delay: null }, function () {});
   }
 
-  connectCalendar = () => {
+  connectCalendar = (google) => {
     chrome.storage.sync.set({ connected: true }, function () {});
     chrome.storage.sync.set({ delay: 1000 }, function () {});
 
@@ -98,35 +99,67 @@ export default class Onboarding extends Component {
       cal_id: this.state.cal_id,
     };
 
-    fetch(api, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        return response.json();
+    if (google) {
+      fetch(api, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .then(async function (data) {
-        await window.open(data);
-      });
+        .then(function (response) {
+          return response.json();
+        })
+        .then(async function (data) {
+          await window.open(data);
+        });
+    } else {
+      console.log("reached msft");
+      fetch(backend_url + `microsoft/connect/${body.uuid}/${body.cal_id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(async function (data) {
+          console.log(data);
+          await window.open(data);
+        });
+    }
   };
 
   render() {
     return (
       <div className="App">
-        <div className="row row_start">
-          <h1>Next meetings</h1>
+        <div className={this.props.addNewCalendar ? "row" : "row row_start"}>
+          <h1>Add a calendar</h1>
+          {this.props.addNewCalendar && (
+            <p
+              onClick={() => this.props.stopAdd()}
+              className="configure configure_cancel"
+            >
+              Cancel add calendar
+            </p>
+          )}
         </div>
         <div className="row row_start">
-          <h3 className="welcome">Welcome to next call</h3>
+          <h3 className="welcome">
+            {this.props.addNewCalendar
+              ? "Connect a new calendar"
+              : "Welcome to next call"}
+          </h3>
         </div>
-        <div className="row row_start">
-          <p className="description">
-            It looks like you haven't connected any calendars yet.
-          </p>
-        </div>
+        {!this.props.addNewCalendar && (
+          <div className="row row_start">
+            <p className="description">
+              It looks like you haven't connected any calendars yet.
+            </p>
+          </div>
+        )}
+
         <div className="row row_start">
           <ol>
             <li className="instruction">
@@ -137,7 +170,7 @@ export default class Onboarding extends Component {
                     <img
                       src={logo}
                       className="logos_img"
-                      onClick={() => this.connectCalendar()}
+                      onClick={() => this.connectCalendar(index === 0)}
                       alt={
                         index === 0
                           ? "Connect Google calendar"
@@ -158,7 +191,9 @@ export default class Onboarding extends Component {
         </div>
         <div className="row row_end">
           <div className="row_end">
-            <p className="help">Need help?</p>
+            <a href="mailto:hi@charlesscheuer.com" className="help">
+              Need help?
+            </a>
           </div>
         </div>
       </div>

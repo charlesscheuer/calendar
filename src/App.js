@@ -22,49 +22,51 @@ class App extends Component {
       configureCalendars: false,
       uuid: this.getUuid(),
       loaded: true,
+      addNewCalendar: false,
     };
   }
 
-  getEvents = () => {
+  getEvents() {
     let events = {
-      todays: [],
-      tomorrows: [],
+      today: [],
+      tomorrow: [],
     };
     chrome.storage &&
       chrome.storage.sync.get(["events"], (result) => {
-        if (Object.keys(result) && Object.keys(result).length !== 0) {
-          console.log("reached inner get events");
+        if (Object.keys(result).length !== 0) {
           result["events"].forEach((event) => {
             if (this.isToday(event.start)) {
-              events.todays = [...events.todays, event];
+              events.today = [...events.today, event];
             } else if (this.isTomorrow(event.start)) {
-              events.tomorrows = [...events.tomorrows, event];
+              events.tomorrow = [...events.tomorrow, event];
             }
           });
-          return events;
-        } else {
-          return null;
+          console.log(events, "FROM GETEVENTS");
         }
       });
+    return events;
+  }
+
+  componentWillMount = () => {
+    this.getCalendars();
   };
 
-  getUuid = () => {
+  getUuid() {
     chrome.storage &&
       chrome.storage.sync.get(["uuid"], (result) => {
-        if (Object.keys(result) && Object.keys(result).length !== 0)
-          return result["uuid"];
-        return null;
+        if (Object.keys(result).length !== 0) return result["uuid"];
       });
-  };
+  }
 
-  getCalendars = () => {
-    chrome.storage &&
+  getCalendars() {
+    return (
+      chrome.storage &&
       chrome.storage.sync.get(["calendars"], (result) => {
-        if (result["calendars"] && result["calendars"].length > 0)
-          return result["calendars"];
-        return null;
-      });
-  };
+        console.log(result["calendars"]);
+        if (result["calendars"].length > 0) return result["calendars"];
+      })
+    );
+  }
 
   isToday = (datetime) => {
     var dateObj = new Date(datetime);
@@ -114,15 +116,26 @@ class App extends Component {
 
   // make notifications
 
+  stopAdd = () => {
+    this.setState({ addNewCalendar: false });
+  };
+
   renderProperView = () => {
-    const { loaded, uuid, events, configureCalendars, calendars } = this.state;
-    console.log(calendars, "CALENDARS FROM STATE");
-    if (this.getUuid() !== null) {
+    const {
+      loaded,
+      uuid,
+      events,
+      configureCalendars,
+      calendars,
+      addNewCalendar,
+    } = this.state;
+    if (loaded && (uuid !== null || uuid !== undefined) && !addNewCalendar) {
       if (configureCalendars) {
         return (
           <ConfigureCalendars
             calendars={calendars}
             delete={this.delete}
+            addNewCalendar={() => this.setState({ addNewCalendar: true })}
             configureCalendars={() =>
               this.setState({ configureCalendars: false })
             }
@@ -131,26 +144,30 @@ class App extends Component {
       } else {
         return (
           <Connected
-            todaysEvents={events && events.todays}
+            events={this.getEvents()}
             configureCalendars={() => {
               this.setState({ configureCalendars: true });
             }}
-            tomorrowsEvents={events && events.tomorrows}
           />
         );
       }
-    } else {
+    } else if (loaded) {
       return (
         <Onboarding
           setUuid={this.setUuid}
           setCalendars={this.setCalendars}
           setEvents={this.setEvents}
+          stopAdd={() => this.stopAdd()}
+          addNewCalendar={addNewCalendar}
         />
       );
+    } else {
+      return <Spinner />;
     }
   };
 
   render() {
+    console.log(this.getCalendars(), "CALENDARS");
     return this.renderProperView();
   }
 }

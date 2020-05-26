@@ -4,13 +4,18 @@ import moment from "moment";
 var formatDateTime = (datetime) => {
   var dateObj = new Date(datetime);
   var momentObj = moment(dateObj);
-
   return momentObj.format("h:mm A");
 };
 
 export default function Connected(props) {
   console.log("rendering connected...");
-  const { todaysEvents, tomorrowsEvents } = props;
+  let { today, tomorrow } = props.events;
+  console.log(
+    props.events.today,
+    props.events[Object.keys(props.events)[1]],
+    props.events,
+    "FROM CONECT"
+  );
   return (
     <div className="App">
       <div className="row">
@@ -19,8 +24,8 @@ export default function Connected(props) {
           configure calendars
         </p>
       </div>
-      {todaysEvents &&
-        todaysEvents.length > 0 && [
+      {today &&
+        today.length > 0 && [
           <div className="row">
             <div className="row_start">
               <p className="row_date">Today</p>
@@ -31,9 +36,9 @@ export default function Connected(props) {
           </div>,
         ]}
 
-      {todaysEvents &&
-        todaysEvents.length > 0 &&
-        todaysEvents.map((event, index) => {
+      {today &&
+        today.length > 0 &&
+        today.map((event, index) => {
           return (
             <Fragment>
               <div className="row">
@@ -45,7 +50,7 @@ export default function Connected(props) {
                   </a>
                 ) : null}
               </div>
-              {index !== todaysEvents.length - 1 && (
+              {index !== today.length - 1 && (
                 <div className="row">
                   <div className="row_divider"></div>
                 </div>
@@ -54,8 +59,8 @@ export default function Connected(props) {
           );
         })}
 
-      {tomorrowsEvents &&
-        tomorrowsEvents.length > 0 && [
+      {tomorrow &&
+        tomorrow.length > 0 && [
           <div className="row">
             <div className="row_start">
               <p className="row_date">Tomorrow</p>
@@ -65,9 +70,9 @@ export default function Connected(props) {
             <div className="row_divider"></div>
           </div>,
         ]}
-      {tomorrowsEvents &&
-        tomorrowsEvents.length > 0 &&
-        tomorrowsEvents.map((event, index) => {
+      {tomorrow &&
+        tomorrow.length > 0 &&
+        tomorrow.map((event, index) => {
           return (
             <Fragment>
               <div className="row">
@@ -79,7 +84,7 @@ export default function Connected(props) {
                   </a>
                 ) : null}
               </div>
-              {index !== tomorrowsEvents.length - 1 && (
+              {index !== tomorrow.length - 1 && (
                 <div className="row">
                   <div className="row_divider"></div>
                 </div>
@@ -89,7 +94,9 @@ export default function Connected(props) {
         })}
       <div className="row row_end">
         <div className="row_end">
-          <p className="help">Need help?</p>
+          <a href="mailto:hi@charlesscheuer.com" className="help">
+            Need help?
+          </a>
         </div>
       </div>
     </div>
