@@ -17,7 +17,6 @@ const fetchLatestEvents = (uuid) => {
     })
     .then(function (data) {
       if (data.length !== 0) {
-        console.log("refreshing events...");
         let events = [];
         data.forEach((calendar) => {
           // data is an array of objects
@@ -25,8 +24,7 @@ const fetchLatestEvents = (uuid) => {
           // we want all the elements of that pushed to events
           events.push(calendar[Object.keys(calendar)[0]]);
         });
-        console.log(events);
-        chrome.storage.sync.set({ events: events }, function () {});
+        chrome.storage.sync.set({ events }, function () {});
       }
     });
 };

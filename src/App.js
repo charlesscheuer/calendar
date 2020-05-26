@@ -8,6 +8,9 @@ import Spinner from "./Spinner";
 import "./App.scss";
 import ConfigureCalendars from "./ConfigureCalendars";
 
+const backend_url =
+  "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
+
 /*global chrome*/
 
 class App extends Component {
@@ -57,6 +60,54 @@ class App extends Component {
     this.setState({ loaded: true });
   };
 
+  initPolling() {
+    var delay = 999999999;
+    console.log("reached init poling");
+    chrome.storage &&
+      chrome.storage.sync.get(["delay"], (result) => {
+        if (result["delay"]) delay = result["delay"];
+        this.timer = setInterval(() => this.pollStatus(), delay);
+      });
+  }
+
+  // Poll for connection status
+  pollStatus = () => {
+    console.log("polling...");
+    chrome.storage &&
+      chrome.storage.sync.get(["connected"], async (result) => {
+        if (result["connected"]) await this.fetchLatestEvents(this.state.uuid);
+      });
+  };
+
+  fetchLatestEvents = (uuid) => {
+    var api = backend_url + `refresh/events/${uuid}`;
+    const that = this;
+    fetch(api, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.length !== 0) {
+          console.log("refreshing events...");
+          let events = [];
+          data.forEach((calendar) => {
+            // data is an array of objects
+            // each object is named like gcal-1
+            // we want all the elements of that pushed to events
+            events.push(calendar[Object.keys(calendar)[0]]);
+          });
+          that.setState({ events });
+          console.log("events", events); // isn't reaching here yet
+          chrome.storage.sync.set({ events }, function () {});
+        }
+      });
+  };
+
   isToday = (datetime) => {
     var dateObj = new Date(datetime);
     var momentObj = moment(dateObj);
@@ -70,18 +121,6 @@ class App extends Component {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     return momentObj.isSame(tomorrow, "day");
-  };
-
-  setUuid = (uuid) => {
-    this.setState({ uuid: uuid });
-  };
-
-  setCalendars = (calendars) => {
-    this.setState({ calendars: calendars });
-  };
-
-  setEvents = (events) => {
-    this.setState({ events: events });
   };
 
   // make notifications
@@ -118,20 +157,17 @@ class App extends Component {
         );
       }
     } else if (loaded) {
-      return (
-        <Onboarding
-          setUuid={this.setUuid}
-          setCalendars={this.setCalendars}
-          setEvents={this.setEvents}
-        />
-      );
+      return <Onboarding setUuid={(uuid) => this.setState({ uuid })} />;
     } else {
       return <Spinner />;
     }
   };
 
+  componentDidMount() {
+    this.initPolling();
+  }
+
   render() {
-    console.log(this.state.uuid);
     return this.renderProperView();
   }
 }

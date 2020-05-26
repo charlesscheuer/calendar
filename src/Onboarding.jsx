@@ -56,29 +56,10 @@ export default class Onboarding extends Component {
             setEvents(data[cal_id]);
           });
 
-          chrome.storage.sync.set({ uuid: uuid }, function () {
+          chrome.storage.sync.set({ uuid }, function () {
             setUuid(uuid);
           });
         }
-      });
-  };
-
-  //Poll for connection status
-  pollStatus = () => {
-    console.log("polling...");
-    chrome.storage &&
-      chrome.storage.sync.get(["connected"], async (result) => {
-        if (result["connected"])
-          await this.fetchConnectionStatus(this.state.uuid, this.state.cal_id);
-      });
-  };
-
-  componentWillMount = () => {
-    var delay = 999999999;
-    chrome.storage &&
-      chrome.storage.sync.get(["delay"], (result) => {
-        if (result["delay"]) delay = result["delay"];
-        this.timer = setInterval(() => this.pollStatus(), delay);
       });
   };
 
@@ -98,6 +79,9 @@ export default class Onboarding extends Component {
       uuid: this.state.uuid,
       cal_id: this.state.cal_id,
     };
+    chrome.storage.sync.set({ uuid: body.uuid }, function () {
+      this.props.setUuid(body.uuid);
+    });
 
     fetch(api, {
       method: "POST",
