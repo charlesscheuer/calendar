@@ -12,10 +12,11 @@ export default function Connected(props) {
   let { today, tomorrow } = props.events;
   console.log(
     props.events.today,
-    props.events[Object.keys(props.events)[1]],
+    props.events.tomorrow,
     props.events,
     "FROM CONECT"
   );
+  console.log(props.events, "PROPS EVENTS");
   return (
     <div className="App">
       <div className="row">

@@ -5,7 +5,7 @@ const backend_url =
 
 const fetchLatestEvents = (uuid) => {
   var api = backend_url + `refresh/events/${uuid}`;
-
+  console.log(uuid);
   fetch(api, {
     method: "GET",
     headers: {
@@ -17,17 +17,17 @@ const fetchLatestEvents = (uuid) => {
     })
     .then(function (data) {
       if (data.length !== 0) {
-        console.log("refreshing events...");
+        console.log("DATA::", data);
         let events = [];
         let calendars = [];
         data.forEach((calendar) => {
           // data is array of objects
           // each object has a key with calender id that has an array of event objects
-          calendars.push(Object.keys(calendar)[0]);
           calendar[Object.keys(calendar)[0]].forEach((event) => {
             events.push(event);
           });
         });
+        console.log(events, "EVENTS FROM FETCHLASTEt");
         chrome.storage.sync.set({ events }, function () {});
       }
     });
@@ -53,6 +53,7 @@ const fetchCalendars = (uuid) => {
 
 chrome.storage &&
   chrome.storage.sync.get(["uuid"], (result) => {
+    console.log(result["uuid"], "FROM function call");
     if (Object.keys(result).length !== 0) {
       fetchLatestEvents(result["uuid"]);
       fetchCalendars(result["uuid"]);
