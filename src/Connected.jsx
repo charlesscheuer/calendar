@@ -85,7 +85,9 @@ export default function Connected(props) {
         })}
       <div className="row row_end">
         <div className="row_end">
-          <p className="help">Need help?</p>
+          <a href="mailto:hi@charlesscheuer.com" className="help">
+            Need help?
+          </a>
         </div>
       </div>
     </div>

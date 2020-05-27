@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function ConfigureCalendars(props) {
-  console.log(props);
   return (
     <div className="App">
       <div className="row">
@@ -12,12 +11,28 @@ export default function ConfigureCalendars(props) {
       </div>
       {props.calendars &&
         props.calendars.map((calendar) => {
-          console.log(calendar);
-          return <div className="row">hey</div>;
+          return (
+            <div className="row account">
+              <p className="instruction"> {calendar.email}</p>
+              <button
+                className="delete"
+                onClick={() => props.delete(calendar.id)}
+              >
+                Disconnect
+              </button>
+            </div>
+          );
         })}
+      <div className="row">
+        <button onClick={() => props.addNewCalendar()} className="new">
+          Add new
+        </button>
+      </div>
       <div className="row row_end">
         <div className="row_end">
-          <p className="help">Need help?</p>
+          <a href="mailto:hi@charlesscheuer.com" className="help">
+            Need help?
+          </a>
         </div>
       </div>
     </div>
