@@ -36,33 +36,6 @@ export default class Onboarding extends Component {
     };
   }
 
-  fetchConnectionStatus = async (uuid, cal_id) => {
-    var api = backend_url + `google/connect/${uuid}/${cal_id}`;
-
-    var setEvents = this.props.setEvents;
-    var setUuid = this.props.setUuid;
-    fetch(api, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data["connected"]) {
-          chrome.storage.sync.set({ events: data[cal_id] }, function () {
-            setEvents(data[cal_id]);
-          });
-
-          chrome.storage.sync.set({ uuid }, function () {
-            setUuid(uuid);
-          });
-        }
-      });
-  };
-
   componentWillUnmount() {
     clearInterval(this.timer);
     this.timer = null;
@@ -99,19 +72,9 @@ export default class Onboarding extends Component {
           await window.open(data);
         });
     } else {
-      fetch(backend_url + `microsoft/connect/${body.uuid}/${body.cal_id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (response) {
-          return response.json();
-        })
-        .then(async function (data) {
-          console.log(data);
-          await window.open(data);
-        });
+      window.open(
+        backend_url + `microsoft/connect/${body.uuid}/${body.cal_id}`
+      );
     }
   };
 
