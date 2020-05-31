@@ -8,6 +8,10 @@ var formatDateTime = (datetime) => {
   return momentObj.format("h:mm A");
 };
 
+const emailUs = () => {
+  window.open("mailto:hi@charlesscheuer.com");
+};
+
 export default function Connected(props) {
   console.log("rendering connected...");
   const { todaysEvents, tomorrowsEvents } = props;
@@ -85,9 +89,9 @@ export default function Connected(props) {
         })}
       <div className="row row_end">
         <div className="row_end">
-          <a href="mailto:hi@charlesscheuer.com" className="help">
+          <p onClick={() => emailUs()} className="help">
             Need help?
-          </a>
+          </p>
         </div>
       </div>
     </div>

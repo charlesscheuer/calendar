@@ -26,6 +26,10 @@ const logos = [GoogleCalendarLogo, OutlookLogo];
 const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
 
+const emailUs = () => {
+  window.open("mailto:hi@charlesscheuer.com");
+};
+
 export default class Onboarding extends Component {
   constructor(props) {
     super(props);
@@ -135,9 +139,9 @@ export default class Onboarding extends Component {
         </div>
         <div className="row row_end">
           <div className="row_end">
-            <a href="mailto:hi@charlesscheuer.com" className="help">
+            <p onClick={() => emailUs()} className="help">
               Need help?
-            </a>
+            </p>
           </div>
         </div>
       </div>

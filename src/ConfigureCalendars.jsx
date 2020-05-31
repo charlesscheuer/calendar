@@ -1,6 +1,10 @@
 import React from "react";
 
 export default function ConfigureCalendars(props) {
+  const emailUs = () => {
+    window.open("mailto:hi@charlesscheuer.com");
+  };
+
   return (
     <div className="App">
       <div className="row">
@@ -30,9 +34,9 @@ export default function ConfigureCalendars(props) {
       </div>
       <div className="row row_end">
         <div className="row_end">
-          <a href="mailto:hi@charlesscheuer.com" className="help">
+          <p onClick={() => emailUs()} className="help">
             Need help?
-          </a>
+          </p>
         </div>
       </div>
     </div>
