@@ -13,7 +13,6 @@ const emailUs = () => {
 };
 
 export default function Connected(props) {
-  console.log("rendering connected...");
   const { todaysEvents, tomorrowsEvents } = props;
   return (
     <div className="App">
@@ -23,18 +22,20 @@ export default function Connected(props) {
           configure calendars
         </p>
       </div>
-      {todaysEvents.length > 0 && [
-        <div className="row">
-          <div className="row_start">
-            <p className="row_date">Today</p>
-          </div>
-        </div>,
-        <div className="row">
-          <div className="row_divider"></div>
-        </div>,
-      ]}
+      {todaysEvents &&
+        todaysEvents.length > 0 && [
+          <div className="row">
+            <div className="row_start">
+              <p className="row_date">Today</p>
+            </div>
+          </div>,
+          <div className="row">
+            <div className="row_divider"></div>
+          </div>,
+        ]}
 
-      {todaysEvents.length > 0 &&
+      {todaysEvents &&
+        todaysEvents.length > 0 &&
         todaysEvents.map((event, index) => {
           return (
             <Fragment>
@@ -56,17 +57,19 @@ export default function Connected(props) {
           );
         })}
 
-      {tomorrowsEvents.length > 0 && [
-        <div className="row">
-          <div className="row_start">
-            <p className="row_date">Tomorrow</p>
-          </div>
-        </div>,
-        <div className="row">
-          <div className="row_divider"></div>
-        </div>,
-      ]}
-      {tomorrowsEvents.length > 0 &&
+      {tomorrowsEvents &&
+        tomorrowsEvents.length > 0 && [
+          <div className="row">
+            <div className="row_start">
+              <p className="row_date">Tomorrow</p>
+            </div>
+          </div>,
+          <div className="row">
+            <div className="row_divider"></div>
+          </div>,
+        ]}
+      {tomorrowsEvents &&
+        tomorrowsEvents.length > 0 &&
         tomorrowsEvents.map((event, index) => {
           return (
             <Fragment>

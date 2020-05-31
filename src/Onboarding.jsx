@@ -35,7 +35,7 @@ export default class Onboarding extends Component {
     super(props);
     console.log("rendering onboarding...");
     this.state = {
-      uuid: "someuser",
+      uuid: "charlesNEW",
       cal_id: "gcal-1",
     };
   }

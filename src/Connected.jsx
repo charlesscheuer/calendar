@@ -42,29 +42,29 @@ export default class Connected extends Component {
           return response.json();
         })
         .then(function (data) {
-          if (data.length !== 0) {
+          if (data.length !== 0 && data) {
             var todays = [];
             var tomorrows = [];
-            console.log("data", data)
+            console.log("data", data);
             data.forEach((calendar) => {
               // data is an array of objects
               // each object is named like gcal-1
               // we want all the elements of that pushed to events
               // calendar is an object
               chrome.storage.sync.set({ loaded: true }, function () {});
-              var calId = Object.keys(calendar)[0]
+              var calId = Object.keys(calendar)[0];
               var calType = null;
-              console.log("calendars", that.state.calendars)
-              that.state.calendars.forEach(cal => {
-                if(cal.id === calId) calType = cal.type
-              })
-              console.log("calendar", calendar)
+              console.log("calendars", that.state.calendars);
+              that.state.calendars.forEach((cal) => {
+                if (cal.id === calId) calType = cal.type;
+              });
+              console.log("calendar", calendar);
               calendar[calId].forEach((event) => {
-                if(calType === "Microsoft") {
-                  event.start = new Date(event.start+"Z")
-                  event.start = moment(event.start).local().format()
-                  event.end = new Date(event.end+"Z")
-                  event.end = moment(event.end).local().format()
+                if (calType === "Microsoft") {
+                  event.start = new Date(event.start + "Z");
+                  event.start = moment(event.start).local().format();
+                  event.end = new Date(event.end + "Z");
+                  event.end = moment(event.end).local().format();
                 }
                 if (
                   isToday(event.start) &&
@@ -77,7 +77,10 @@ export default class Connected extends Component {
               });
             });
             chrome.storage.sync.set({ todaysEvents: todays }, function () {});
-            chrome.storage.sync.set({ tomorrowsEvents: tomorrows }, function () {});
+            chrome.storage.sync.set(
+              { tomorrowsEvents: tomorrows },
+              function () {}
+            );
             that.setState({ tomorrowsEvents: tomorrows });
             that.setState({ todaysEvents: todays });
           }
@@ -125,7 +128,7 @@ export default class Connected extends Component {
       })
       .then(function (data) {
         let calendars = [];
-        console.log("here", Object.keys(data))
+        console.log("here", Object.keys(data));
         Object.keys(data).forEach((calendarID) => {
           if (data[calendarID].email && data[calendarID].connected) {
             const newItem = { ...data[calendarID], id: calendarID };
@@ -134,21 +137,24 @@ export default class Connected extends Component {
         });
         chrome.storage.sync.set({ calendars: calendars }, function () {});
         that.setState({ calendars });
-        console.log("set calendars", calendars)
+        console.log("set calendars", calendars);
       });
   }
 
   componentWillMount = () => {
     this.fetchLatestEvents();
     chrome.storage &&
-      chrome.storage.sync.get(["todaysEvents", "tomorrowsEvents", "calendars"], (result) => {
-        console.log("result....", result)
-        this.setState({
-          "todaysEvents": result["todaysEvents"],
-          "tomorrowsEvents": result["tomorrowsEvents"],
-          "calendars": result["calendars"]
-        })
-      });
+      chrome.storage.sync.get(
+        ["todaysEvents", "tomorrowsEvents", "calendars"],
+        (result) => {
+          console.log("result....", result);
+          this.setState({
+            todaysEvents: result["todaysEvents"],
+            tomorrowsEvents: result["tomorrowsEvents"],
+            calendars: result["calendars"],
+          });
+        }
+      );
   };
 
   componentDidMount() {
@@ -156,7 +162,7 @@ export default class Connected extends Component {
     chrome.storage &&
       chrome.storage.sync.get(["loaded"], (result) => {
         console.log(result["loaded"], "RESULT LOOKING FOR LOADED");
-        if (Object.keys(result).length !== 0) {
+        if (Object.keys(result) && Object.keys(result).length !== 0) {
           delay = 30000;
         }
       });

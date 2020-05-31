@@ -16,7 +16,7 @@ const fetchLatestEvents = (uuid) => {
       return response.json();
     })
     .then(function (data) {
-      if (data.length !== 0) {
+      if (data && data.length !== 0) {
         let events = [];
         data.forEach((calendar) => {
           // data is an array of objects
