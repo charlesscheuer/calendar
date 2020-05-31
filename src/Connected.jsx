@@ -45,6 +45,7 @@ export default class Connected extends Component {
           if (data.length !== 0) {
             var todays = [];
             var tomorrows = [];
+            console.log("data", data)
             data.forEach((calendar) => {
               // data is an array of objects
               // each object is named like gcal-1
@@ -53,9 +54,11 @@ export default class Connected extends Component {
               chrome.storage.sync.set({ loaded: true }, function () {});
               var calId = Object.keys(calendar)[0]
               var calType = null;
+              console.log("calendars", that.state.calendars)
               that.state.calendars.forEach(cal => {
                 if(cal.id === calId) calType = cal.type
               })
+              console.log("calendar", calendar)
               calendar[calId].forEach((event) => {
                 if(calType === "Microsoft") {
                   event.start = new Date(event.start+"Z")
@@ -122,24 +125,28 @@ export default class Connected extends Component {
       })
       .then(function (data) {
         let calendars = [];
+        console.log("here", Object.keys(data))
         Object.keys(data).forEach((calendarID) => {
           if (data[calendarID].email && data[calendarID].connected) {
             const newItem = { ...data[calendarID], id: calendarID };
             calendars.push(newItem);
           }
         });
+        chrome.storage.sync.set({ calendars: calendars }, function () {});
         that.setState({ calendars });
+        console.log("set calendars", calendars)
       });
   }
 
   componentWillMount = () => {
     this.fetchLatestEvents();
     chrome.storage &&
-      chrome.storage.sync.get(["todaysEvents", "tomorrowsEvents"], (result) => {
+      chrome.storage.sync.get(["todaysEvents", "tomorrowsEvents", "calendars"], (result) => {
         console.log("result....", result)
         this.setState({
           "todaysEvents": result["todaysEvents"],
-          "tomorrowsEvents": result["tomorrowsEvents"]
+          "tomorrowsEvents": result["tomorrowsEvents"],
+          "calendars": result["calendars"]
         })
       });
   };
