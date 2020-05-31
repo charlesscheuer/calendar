@@ -50,8 +50,14 @@ export default class Connected extends Component {
               // each object is named like gcal-1
               // we want all the elements of that pushed to events
               // calendar is an object
+              console.log(calendar, "got a calendar");
               chrome.storage.sync.set({ loaded: true }, function () {});
               calendar[Object.keys(calendar)[0]].forEach((event) => {
+                let convert = moment(event);
+                convert.local();
+                console.log(convert, "got an event with converted time");
+                event.start = convert.format("h:mm A");
+                console.log(event.start, "event START LOG");
                 if (
                   isToday(event.start) &&
                   !moment().isAfter(moment(event.start).add(30, "m"))
