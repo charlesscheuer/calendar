@@ -104,7 +104,6 @@ export default class Connected extends Component {
         "Content-Type": "application/json",
       },
     }).then(function (response) {
-      chrome.storage && chrome.storage.sync.clear();
       return response.json();
     });
   };
@@ -125,7 +124,7 @@ export default class Connected extends Component {
       .then(function (data) {
         let calendars = [];
         Object.keys(data).forEach((calendarID) => {
-          if (data[calendarID].email) {
+          if (data[calendarID].email && data[calendarID].connected) {
             const newItem = { ...data[calendarID], id: calendarID };
             calendars.push(newItem);
           }
@@ -139,7 +138,7 @@ export default class Connected extends Component {
   };
 
   componentDidMount() {
-    let delay = 500;
+    let delay = 5000;
     chrome.storage &&
       chrome.storage.sync.get(["loaded"], (result) => {
         console.log(result["loaded"], "RESULT LOOKING FOR LOADED");
