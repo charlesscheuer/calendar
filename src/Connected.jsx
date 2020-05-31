@@ -73,6 +73,8 @@ export default class Connected extends Component {
                 }
               });
             });
+            chrome.storage.sync.set({ todaysEvents: todays }, function () {});
+            chrome.storage.sync.set({ tomorrowsEvents: tomorrows }, function () {});
             that.setState({ tomorrowsEvents: tomorrows });
             that.setState({ todaysEvents: todays });
           }
@@ -132,6 +134,14 @@ export default class Connected extends Component {
 
   componentWillMount = () => {
     this.fetchLatestEvents();
+    chrome.storage &&
+      chrome.storage.sync.get(["todaysEvents", "tomorrowsEvents"], (result) => {
+        console.log("result....", result)
+        this.setState({
+          "todaysEvents": result["todaysEvents"],
+          "tomorrowsEvents": result["tomorrowsEvents"]
+        })
+      });
   };
 
   componentDidMount() {

@@ -13,8 +13,7 @@ class App extends Component {
     super();
     this.state = {
       uuid: null,
-      loaded: true,
-      addNew: false,
+      addNewCalendar: false,
     };
   }
 
@@ -30,10 +29,6 @@ class App extends Component {
     );
   };
 
-  stopAdd = () => {
-    this.setState({ addNewCalendar: false });
-  };
-
   componentWillMount = () => {
     this.getUuid();
   };
@@ -41,12 +36,12 @@ class App extends Component {
   // make notifications
 
   renderProperView = () => {
-    const { loaded, uuid, addNewCalendar } = this.state;
-    if (loaded && uuid !== null && !addNewCalendar) {
+    const { uuid, addNewCalendar } = this.state;
+    if (uuid && !addNewCalendar) {
       return (
         <Connected
           addNewCalendar={() => this.setState({ addNewCalendar: true })}
-          stopAdd={this.stopAdd}
+          stopAdd={() => this.setState({ addNewCalendar: false })}
           uuid={uuid}
         />
       );
@@ -54,7 +49,7 @@ class App extends Component {
     return (
       <Onboarding
         addNewCalendar={this.state.addNewCalendar}
-        stopAdd={() => this.stopAdd()}
+        stopAdd={() => this.setState({ addNewCalendar: false })}
         setUuid={(uuid) => this.setState({ uuid })}
       />
     );
