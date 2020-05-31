@@ -50,14 +50,19 @@ export default class Connected extends Component {
               // each object is named like gcal-1
               // we want all the elements of that pushed to events
               // calendar is an object
-              console.log(calendar, "got a calendar");
               chrome.storage.sync.set({ loaded: true }, function () {});
-              calendar[Object.keys(calendar)[0]].forEach((event) => {
-                let convert = moment(event);
-                convert.local();
-                console.log(convert, "got an event with converted time");
-                event.start = convert.format("h:mm A");
-                console.log(event.start, "event START LOG");
+              var calId = Object.keys(calendar)[0]
+              var calType = null;
+              that.state.calendars.forEach(cal => {
+                if(cal.id === calId) calType = cal.type
+              })
+              calendar[calId].forEach((event) => {
+                if(calType === "Microsoft") {
+                  event.start = new Date(event.start+"Z")
+                  event.start = moment(event.start).local().format()
+                  event.end = new Date(event.end+"Z")
+                  event.end = moment(event.end).local().format()
+                }
                 if (
                   isToday(event.start) &&
                   !moment().isAfter(moment(event.start).add(30, "m"))
@@ -68,16 +73,8 @@ export default class Connected extends Component {
                 }
               });
             });
-            console.log(that.state, todays, tomorrows);
-            if (that.state.tomorrowsEvents !== tomorrows) {
-              that.setState({
-                tomorrowsEvents: tomorrows,
-              });
-            } else if (that.state.todaysEvents !== todays) {
-              that.setState({
-                todaysEvents: todays,
-              });
-            }
+            that.setState({ tomorrowsEvents: tomorrows });
+            that.setState({ todaysEvents: todays });
           }
         });
     }
