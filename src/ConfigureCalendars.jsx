@@ -28,7 +28,10 @@ export default function ConfigureCalendars(props) {
           );
         })}
       <div className="row">
-        <button onClick={() => props.addNewCalendar()} className="new">
+        <button
+          onClick={() => props.addNewCalendar(props.calendars)}
+          className="new"
+        >
           Add new
         </button>
       </div>

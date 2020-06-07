@@ -13,6 +13,7 @@ class App extends Component {
     this.state = {
       uuid: null,
       addNewCalendar: false,
+      numCalendars: 0,
     };
   }
 
@@ -31,14 +32,23 @@ class App extends Component {
     this.getUuid();
   };
 
+  addNewCalendar = (calendars) => {
+    console.log("reached add new");
+    console.log(calendars, "FROM ADDNEWCALS FUNCTiONS");
+    this.setState({
+      addNewCalendar: true,
+      numCalendars: calendars.length,
+    });
+  };
+
   // make notifications
 
   renderProperView = () => {
-    const { uuid, addNewCalendar } = this.state;
+    const { uuid, addNewCalendar, numCalendars } = this.state;
     if (uuid && !addNewCalendar) {
       return (
         <Connected
-          addNewCalendar={() => this.setState({ addNewCalendar: true })}
+          addNewCalendar={this.addNewCalendar}
           stopAdd={() => this.setState({ addNewCalendar: false })}
           uuid={uuid}
         />
@@ -46,13 +56,15 @@ class App extends Component {
     }
     return (
       <Onboarding
-        addNewCalendar={this.state.addNewCalendar}
+        addNewCalendar={addNewCalendar}
+        numCalendars={numCalendars}
         stopAdd={() => this.setState({ addNewCalendar: false })}
       />
     );
   };
 
   render() {
+    console.log(this.state.uuid);
     return this.renderProperView();
   }
 }

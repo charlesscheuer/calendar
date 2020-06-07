@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-
 import GoogleCalendarLogo from "./Logos/Google_Calendar.png";
 import OutlookLogo from "./Logos/Microsoft_Outlook_2013_logo.png";
+import { v4 as uuid } from "uuid";
 
 const list = [
   "Connect with google calendar",
@@ -35,8 +35,8 @@ export default class Onboarding extends Component {
     super(props);
     console.log("rendering onboarding...");
     this.state = {
-      uuid: "charlesNEW",
-      cal_id: "gcal-1",
+      uuid: uuid(),
+      cal_id: `Calendar_${props.numCalendars}`,
     };
   }
 

@@ -44,6 +44,13 @@ export default class Connected extends Component {
           return response.json();
         })
         .then(function (data) {
+          console.log(data, "Was data");
+          if (data.length === 0) {
+            chrome.storage.sync.set({ todaysEvents: [] }, function () {});
+            chrome.storage.sync.set({ tomorrowsEvents: [] }, function () {
+              that.setState({ todaysEvents: [], tomorrowsEvents: [] });
+            });
+          }
           if (data.length !== 0 && data) {
             var todays = [];
             var tomorrows = [];
@@ -98,7 +105,7 @@ export default class Connected extends Component {
     const newCalendarsArray = calendars.filter((calendar) => {
       return calendar.id !== id;
     });
-    console.log(newCalendarsArray);
+    console.log(newCalendarsArray, "new calendars array");
     this.setState({ calendars: newCalendarsArray });
     let body = {
       cal_id: id,
@@ -150,7 +157,11 @@ export default class Connected extends Component {
         ["todaysEvents", "tomorrowsEvents", "calendars"],
         (result) => {
           console.log("result....", result["calendars"]);
-          if (result["calendars"] || result["todaysEvents"] || result["tomorrowsEvents"]) {
+          if (
+            result["calendars"] ||
+            result["todaysEvents"] ||
+            result["tomorrowsEvents"]
+          ) {
             this.setState({
               todaysEvents: result["todaysEvents"],
               tomorrowsEvents: result["tomorrowsEvents"],
@@ -188,16 +199,16 @@ export default class Connected extends Component {
         />
       );
     } else {
-      return (
-        this.state.loading?
-        <Spinner/> :
-        (<Events
+      return this.state.loading ? (
+        <Spinner />
+      ) : (
+        <Events
           todaysEvents={todaysEvents}
           configureCalendars={() => {
             this.setState({ configureCalendars: true });
           }}
           tomorrowsEvents={tomorrowsEvents}
-        />)
+        />
       );
     }
   };
