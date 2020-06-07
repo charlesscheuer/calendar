@@ -48,7 +48,7 @@ export default class Onboarding extends Component {
 
   connectCalendar = (google) => {
     chrome.storage.sync.set({ connected: true }, function () {});
-    chrome.storage.sync.set({ delay: 1000 }, function () {});
+    chrome.storage.sync.set({ uuid: this.state.uuid }, function () {});
 
     var api = backend_url + "google/connect";
 
@@ -56,10 +56,6 @@ export default class Onboarding extends Component {
       uuid: this.state.uuid,
       cal_id: this.state.cal_id,
     };
-
-    chrome.storage.sync.set({ uuid: body.uuid }, function () {
-      this.props.setUuid(body.uuid);
-    });
 
     if (google) {
       fetch(api, {

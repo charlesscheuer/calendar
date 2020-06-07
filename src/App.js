@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import Connected from "./Connected";
 import Onboarding from "./Onboarding";
-import Spinner from "./Spinner";
 
 import "./App.scss";
 
@@ -23,7 +22,6 @@ class App extends Component {
       chrome.storage.sync.get(["uuid"], (result) => {
         if (Object.keys(result).length !== 0) {
           this.setState({ uuid: result["uuid"] });
-          return result["uuid"];
         }
       })
     );
@@ -50,7 +48,6 @@ class App extends Component {
       <Onboarding
         addNewCalendar={this.state.addNewCalendar}
         stopAdd={() => this.setState({ addNewCalendar: false })}
-        setUuid={(uuid) => this.setState({ uuid })}
       />
     );
   };

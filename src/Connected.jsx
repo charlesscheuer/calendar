@@ -3,6 +3,7 @@ import moment from "moment";
 
 import ConfigureCalendars from "./ConfigureCalendars";
 import Events from "./Events";
+import Spinner from "./Spinner";
 
 import { isToday, isTomorrow } from "./MomentHelpers";
 
@@ -14,6 +15,7 @@ const backend_url =
 /*global chrome*/
 
 export default class Connected extends Component {
+  intervalId = 0;
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +23,7 @@ export default class Connected extends Component {
       tomorrowsEvents: [],
       calendars: null,
       events: null,
-      slowDelay: false,
+      loading: true,
       configureCalendars: false,
     };
   }
@@ -51,7 +53,6 @@ export default class Connected extends Component {
               // each object is named like gcal-1
               // we want all the elements of that pushed to events
               // calendar is an object
-              chrome.storage.sync.set({ loaded: true }, function () {});
               var calId = Object.keys(calendar)[0];
               var calType = null;
               console.log("calendars", that.state.calendars);
@@ -83,6 +84,8 @@ export default class Connected extends Component {
             );
             that.setState({ tomorrowsEvents: tomorrows });
             that.setState({ todaysEvents: todays });
+            that.setState({ loading: false });
+            clearInterval(that.intervalId);
           }
         });
     }
@@ -142,32 +145,28 @@ export default class Connected extends Component {
   }
 
   componentWillMount = () => {
-    this.fetchLatestEvents();
     chrome.storage &&
       chrome.storage.sync.get(
         ["todaysEvents", "tomorrowsEvents", "calendars"],
         (result) => {
-          console.log("result....", result);
-          this.setState({
-            todaysEvents: result["todaysEvents"],
-            tomorrowsEvents: result["tomorrowsEvents"],
-            calendars: result["calendars"],
-          });
+          console.log("result....", result["calendars"]);
+          if (result["calendars"] || result["todaysEvents"] || result["tomorrowsEvents"]) {
+            this.setState({
+              todaysEvents: result["todaysEvents"],
+              tomorrowsEvents: result["tomorrowsEvents"],
+              calendars: result["calendars"],
+              loading: false,
+            });
+          }
         }
       );
   };
 
   componentDidMount() {
-    let delay = 5000;
-    chrome.storage &&
-      chrome.storage.sync.get(["loaded"], (result) => {
-        console.log(result["loaded"], "RESULT LOOKING FOR LOADED");
-        if (Object.keys(result) && Object.keys(result).length !== 0) {
-          delay = 30000;
-        }
-      });
-    setInterval(() => this.getCalendars(), delay);
-    setInterval(() => this.fetchLatestEvents(delay), delay);
+    this.intervalId = setInterval(async () => {
+      await this.getCalendars();
+      await this.fetchLatestEvents(5000);
+    }, 5000);
   }
 
   renderProper = () => {
@@ -190,13 +189,15 @@ export default class Connected extends Component {
       );
     } else {
       return (
-        <Events
+        this.state.loading?
+        <Spinner/> :
+        (<Events
           todaysEvents={todaysEvents}
           configureCalendars={() => {
             this.setState({ configureCalendars: true });
           }}
           tomorrowsEvents={tomorrowsEvents}
-        />
+        />)
       );
     }
   };
