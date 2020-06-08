@@ -73,6 +73,7 @@ export default class Connected extends Component {
                   event.end = new Date(event.end + "Z");
                   event.end = moment(event.end).local().format();
                 }
+                event.calId = calId
                 if (
                   isToday(event.start) &&
                   !moment().isAfter(moment(event.start).add(30, "m"))
@@ -91,21 +92,34 @@ export default class Connected extends Component {
             that.setState({ tomorrowsEvents: tomorrows });
             that.setState({ todaysEvents: todays });
             that.setState({ loading: false });
-            clearInterval(that.intervalId);
           }
+          clearInterval(that.intervalId);
         });
     }
   };
 
   // disconnect a calendar
   delete = (id) => {
-    const { calendars } = this.state;
+    const { calendars, todaysEvents, tomorrowsEvents } = this.state;
     const { uuid } = this.props;
     const newCalendarsArray = calendars.filter((calendar) => {
       return calendar.id !== id;
     });
-    console.log(newCalendarsArray, "new calendars array");
-    this.setState({ calendars: newCalendarsArray });
+    const newTodays = todaysEvents.filter(event => {
+      return event.calId !== id
+    });
+    const newTomorrows = tomorrowsEvents.filter(event => {
+      return event.calId !== id
+    });
+    this.setState({
+      calendars: newCalendarsArray,
+      todaysEvents: newTodays,
+      tomorrowsEvents: newTomorrows,
+    });
+    chrome.storage.sync.set({ calendars: newCalendarsArray }, function () {});
+    chrome.storage.sync.set({ todaysEvents: newTodays }, function () {});
+    chrome.storage.sync.set({ tomorrowsEvents: newTomorrows }, function () {});
+
     let body = {
       cal_id: id,
       disconnect: true,
