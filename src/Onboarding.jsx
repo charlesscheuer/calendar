@@ -35,7 +35,7 @@ export default class Onboarding extends Component {
     super(props);
     console.log("rendering onboarding...");
     chrome.storage &&
-    chrome.storage.sync.get(["uuid"], (result) => {
+    chrome.storage.local.get(["uuid"], (result) => {
       console.log(result, "onboard")
       if (result && result["uuid"]) {
         this.state = {
@@ -51,15 +51,9 @@ export default class Onboarding extends Component {
     })
   }
 
-  // componentWillUnmount() {
-  //   clearInterval(this.timer);
-  //   this.timer = null;
-  //   chrome.storage.sync.set({ delay: null }, function () {});
-  // }
-
   connectCalendar = (google) => {
-    chrome.storage.sync.set({ connected: true }, function () {});
-    chrome.storage.sync.set({ uuid: this.state.uuid }, function () {});
+    chrome.storage.local.set({ connected: true }, function () {});
+    chrome.storage.local.set({ uuid: this.state.uuid }, function () {});
 
     var api = backend_url + "google/connect";
 

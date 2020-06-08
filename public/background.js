@@ -24,12 +24,12 @@ const fetchLatestEvents = (uuid) => {
           // we want all the elements of that pushed to events
           events.push(calendar[Object.keys(calendar)[0]]);
         });
-        chrome.storage.sync.set({ events }, function () {});
+        chrome.storage.local.set({ events }, function () {});
       }
     });
 };
 
 chrome.storage &&
-  chrome.storage.sync.get(["uuid"], (result) => {
+  chrome.storage.local.get(["uuid"], (result) => {
     if (Object.keys(result).length !== 0) fetchLatestEvents(result["uuid"]);
   });

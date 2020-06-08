@@ -20,7 +20,7 @@ class App extends Component {
   getUuid = () => {
     return (
       chrome.storage &&
-      chrome.storage.sync.get(["uuid"], (result) => {
+      chrome.storage.local.get(["uuid"], (result) => {
         if (Object.keys(result).length !== 0) {
           this.setState({ uuid: result["uuid"] });
         }

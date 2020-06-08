@@ -45,8 +45,8 @@ export default class Connected extends Component {
         .then(function (data) {
           console.log(data, "Was data");
           if (data.length === 0) {
-            chrome.storage.sync.set({ todaysEvents: [] }, function () {});
-            chrome.storage.sync.set({ tomorrowsEvents: [] }, function () {
+            chrome.storage.local.set({ todaysEvents: [] }, function () {});
+            chrome.storage.local.set({ tomorrowsEvents: [] }, function () {
               that.setState({ todaysEvents: [], tomorrowsEvents: [] });
             });
           }
@@ -84,8 +84,8 @@ export default class Connected extends Component {
                 }
               });
             });
-            chrome.storage.sync.set({ todaysEvents: todays }, function () {});
-            chrome.storage.sync.set(
+            chrome.storage.local.set({ todaysEvents: todays }, function () {});
+            chrome.storage.local.set(
               { tomorrowsEvents: tomorrows },
               function () {}
             );
@@ -116,9 +116,9 @@ export default class Connected extends Component {
       todaysEvents: newTodays,
       tomorrowsEvents: newTomorrows,
     });
-    chrome.storage.sync.set({ calendars: newCalendarsArray }, function () {});
-    chrome.storage.sync.set({ todaysEvents: newTodays }, function () {});
-    chrome.storage.sync.set({ tomorrowsEvents: newTomorrows }, function () {});
+    chrome.storage.local.set({ calendars: newCalendarsArray }, function () {});
+    chrome.storage.local.set({ todaysEvents: newTodays }, function () {});
+    chrome.storage.local.set({ tomorrowsEvents: newTomorrows }, function () {});
 
     let body = {
       cal_id: id,
@@ -158,7 +158,7 @@ export default class Connected extends Component {
             calendars.push(newItem);
           }
         });
-        chrome.storage.sync.set({ calendars: calendars }, function () {});
+        chrome.storage.local.set({ calendars: calendars }, function () {});
         that.setState({ calendars });
         console.log("set calendars", calendars);
       });
@@ -166,7 +166,7 @@ export default class Connected extends Component {
 
   componentWillMount = () => {
     chrome.storage &&
-      chrome.storage.sync.get(
+      chrome.storage.local.get(
         ["todaysEvents", "tomorrowsEvents", "calendars"],
         (result) => {
           console.log("result....", result["calendars"]);
