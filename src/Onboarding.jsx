@@ -34,17 +34,28 @@ export default class Onboarding extends Component {
   constructor(props) {
     super(props);
     console.log("rendering onboarding...");
-    this.state = {
-      uuid: uuid(),
-      cal_id: `Calendar_${props.numCalendars}`,
-    };
+    chrome.storage &&
+    chrome.storage.sync.get(["uuid"], (result) => {
+      console.log(result, "onboard")
+      if (result && result["uuid"]) {
+        this.state = {
+          uuid: result["uuid"],
+          cal_id: `Calendar_${props.numCalendars}`,
+        };
+      } else {
+        this.state = {
+          uuid: uuid(),
+          cal_id: `Calendar_${props.numCalendars}`,
+        };
+      }
+    })
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-    this.timer = null;
-    chrome.storage.sync.set({ delay: null }, function () {});
-  }
+  // componentWillUnmount() {
+  //   clearInterval(this.timer);
+  //   this.timer = null;
+  //   chrome.storage.sync.set({ delay: null }, function () {});
+  // }
 
   connectCalendar = (google) => {
     chrome.storage.sync.set({ connected: true }, function () {});

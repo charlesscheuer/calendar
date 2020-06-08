@@ -28,11 +28,10 @@ export default class Connected extends Component {
     };
   }
 
-  fetchLatestEvents = (delay) => {
+  fetchLatestEvents = () => {
     const { uuid } = this.props;
     var api = backend_url + `refresh/events/${uuid}`;
     const that = this;
-    console.log(delay, "was delay");
     if (uuid !== null) {
       fetch(api, {
         method: "GET",
@@ -176,7 +175,7 @@ export default class Connected extends Component {
   componentDidMount() {
     this.intervalId = setInterval(async () => {
       await this.getCalendars();
-      await this.fetchLatestEvents(5000);
+      await this.fetchLatestEvents();
     }, 5000);
   }
 

@@ -8,7 +8,7 @@ export default function ConfigureCalendars(props) {
   return (
     <div className="App">
       <div className="row">
-        <h1>Connected Calendars:</h1>
+        <h1>Connected Calendars</h1>
         <p onClick={() => props.configureCalendars()} className="configure">
           my schedule
         </p>
@@ -16,7 +16,7 @@ export default function ConfigureCalendars(props) {
       {props.calendars &&
         props.calendars.map((calendar) => {
           return (
-            <div className="row account">
+            <div key={calendar.id} className="row account">
               <p className="instruction"> {calendar.email}</p>
               <button
                 className="delete"
