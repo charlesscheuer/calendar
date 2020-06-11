@@ -73,7 +73,7 @@ export default class Connected extends Component {
                   event.end = new Date(event.end + "Z");
                   event.end = moment(event.end).local().format();
                 }
-                event.calId = calId
+                event.calId = calId;
                 if (
                   isToday(event.start) &&
                   !moment().isAfter(moment(event.start).add(30, "m"))
@@ -84,18 +84,31 @@ export default class Connected extends Component {
                 }
               });
             });
-            chrome.storage.local.set({ todaysEvents: todays }, function () {});
-            chrome.storage.local.set(
-              { tomorrowsEvents: tomorrows },
-              function () {}
-            );
-            that.setState({ tomorrowsEvents: tomorrows });
-            that.setState({ todaysEvents: todays });
+
+            let tomorrowsEvents = that.sortEvents(tomorrows);
+            let todaysEvents = that.sortEvents(todays);
+            chrome.storage.local.set({ todaysEvents }, function () {});
+            chrome.storage.local.set({ tomorrowsEvents }, function () {});
+            console.log(tomorrows, tomorrowsEvents, "sorted");
+            that.setState({ tomorrowsEvents });
+            that.setState({ todaysEvents });
             that.setState({ loading: false });
           }
           clearInterval(that.intervalId);
         });
     }
+  };
+
+  sortEvents = (events) => {
+    return events.sort(function (a, b) {
+      if (moment(a.start).isAfter(moment(b.start))) {
+        return 1;
+      } else if (moment(b.start).isAfter(moment(a.start))) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
   };
 
   // disconnect a calendar
@@ -105,11 +118,11 @@ export default class Connected extends Component {
     const newCalendarsArray = calendars.filter((calendar) => {
       return calendar.id !== id;
     });
-    const newTodays = todaysEvents.filter(event => {
-      return event.calId !== id
+    const newTodays = todaysEvents.filter((event) => {
+      return event.calId !== id;
     });
-    const newTomorrows = tomorrowsEvents.filter(event => {
-      return event.calId !== id
+    const newTomorrows = tomorrowsEvents.filter((event) => {
+      return event.calId !== id;
     });
     this.setState({
       calendars: newCalendarsArray,
