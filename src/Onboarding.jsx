@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-
 import GoogleCalendarLogo from "./Logos/Google_Calendar.png";
 import OutlookLogo from "./Logos/Microsoft_Outlook_2013_logo.png";
+import { v4 as uuid } from "uuid";
 
 const list = [
   "Connect with google calendar",
@@ -25,71 +25,36 @@ const logos = [GoogleCalendarLogo, OutlookLogo];
 
 const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
+// const backend_url = "http://localhost:3000/nextcallfyi/";
+
+const emailUs = () => {
+  window.open("mailto:hi@charlesscheuer.com");
+};
 
 export default class Onboarding extends Component {
   constructor(props) {
     super(props);
     console.log("rendering onboarding...");
-    this.state = {
-      uuid: "someuser",
-      cal_id: "gcal-1",
-    };
-  }
-
-  fetchConnectionStatus = async (uuid, cal_id) => {
-    var api = backend_url + `google/connect/${uuid}/${cal_id}`;
-    var setEvents = this.props.setEvents;
-    var setUuid = this.props.setUuid;
-    fetch(api, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    chrome.storage &&
+    chrome.storage.local.get(["uuid"], (result) => {
+      console.log(result, "onboard")
+      if (result && result["uuid"]) {
+        this.state = {
+          uuid: result["uuid"],
+          cal_id: `Calendar_${props.numCalendars}`,
+        };
+      } else {
+        this.state = {
+          uuid: uuid(),
+          cal_id: `Calendar_${props.numCalendars}`,
+        };
+      }
     })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data["connected"]) {
-          chrome.storage.sync.set({ events: data[cal_id] }, function () {
-            setEvents(data[cal_id]);
-          });
-
-          chrome.storage.sync.set({ uuid: uuid }, function () {
-            setUuid(uuid);
-          });
-        }
-      });
-  };
-
-  //Poll for connection status
-  pollStatus = () => {
-    console.log("polling...");
-    chrome.storage &&
-      chrome.storage.sync.get(["connected"], async (result) => {
-        if (result["connected"])
-          await this.fetchConnectionStatus(this.state.uuid, this.state.cal_id);
-      });
-  };
-
-  componentWillMount = () => {
-    var delay = 999999999;
-    chrome.storage &&
-      chrome.storage.sync.get(["delay"], (result) => {
-        if (result["delay"]) delay = result["delay"];
-        this.timer = setInterval(() => this.pollStatus(), delay);
-      });
-  };
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-    this.timer = null;
-    chrome.storage.sync.set({ delay: null }, function () {});
   }
 
-  connectCalendar = () => {
-    chrome.storage.sync.set({ connected: true }, function () {});
-    chrome.storage.sync.set({ delay: 1000 }, function () {});
+  connectCalendar = (google) => {
+    chrome.storage.local.set({ connected: true }, function () {});
+    chrome.storage.local.set({ uuid: this.state.uuid }, function () {});
 
     var api = backend_url + "google/connect";
 
@@ -98,35 +63,53 @@ export default class Onboarding extends Component {
       cal_id: this.state.cal_id,
     };
 
-    fetch(api, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        return response.json();
+    if (google) {
+      fetch(api, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .then(async function (data) {
-        await window.open(data);
-      });
+        .then(function (response) {
+          return response.json();
+        })
+        .then(async function (data) {
+          await window.open(data);
+        });
+    } else {
+      window.open(
+        backend_url + `microsoft/connect/${body.uuid}/${body.cal_id}`
+      );
+    }
   };
 
   render() {
     return (
       <div className="App">
-        <div className="row row_start">
-          <h1>Next meetings</h1>
+        <div className={this.props.addNewCalendar ? "row" : "row row_start"}>
+          <h1>Add a calendar</h1>
+          {this.props.addNewCalendar && (
+            <button className="delete" onClick={() => this.props.stopAdd()}>
+              Cancel
+            </button>
+          )}
         </div>
         <div className="row row_start">
-          <h3 className="welcome">Welcome to next call</h3>
+          <h3 className="welcome">
+            {this.props.addNewCalendar
+              ? "Connect a new calendar"
+              : "Welcome to next call"}
+          </h3>
         </div>
-        <div className="row row_start">
-          <p className="description">
-            It looks like you haven't connected any calendars yet.
-          </p>
-        </div>
+        {!this.props.addNewCalendar && (
+          <div className="row row_start">
+            <p className="description">
+              It looks like you haven't connected any calendars yet.
+            </p>
+          </div>
+        )}
+
         <div className="row row_start">
           <ol>
             <li className="instruction">
@@ -137,7 +120,7 @@ export default class Onboarding extends Component {
                     <img
                       src={logo}
                       className="logos_img"
-                      onClick={() => this.connectCalendar()}
+                      onClick={() => this.connectCalendar(index === 0)}
                       alt={
                         index === 0
                           ? "Connect Google calendar"
@@ -158,7 +141,9 @@ export default class Onboarding extends Component {
         </div>
         <div className="row row_end">
           <div className="row_end">
-            <p className="help">Need help?</p>
+            <p onClick={() => emailUs()} className="help">
+              Need help?
+            </p>
           </div>
         </div>
       </div>

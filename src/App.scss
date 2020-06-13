@@ -32,13 +32,14 @@ $font: "Cera Pro", sans-serif;
 }
 
 // Colors:
-$dark: #333232;
+$dark: #231f20;
 $light: #9e9ea7;
 $grey-1: #6e6d7a;
 $divider: #edf0f2;
 $blank: #fff;
-$primary: #108173;
+$primary: #0c334d;
 $secondary: #07508b;
+$red: #f76274;
 
 .App {
   width: 400px;
@@ -84,11 +85,15 @@ $secondary: #07508b;
   &::selection {
     background-color: transparent;
   }
+  &_cancel {
+    color: $red;
+  }
 }
 
 h1 {
   font-family: $font;
   font-weight: 600;
+  color: $dark;
 }
 
 .time {
@@ -140,6 +145,13 @@ h1 {
   color: $light;
   font-size: 14px;
   font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  &:active,
+  &:focus {
+    text-decoration: none;
+    color: $light;
+  }
 }
 
 .welcome {
@@ -188,5 +200,71 @@ ol {
     width: auto;
     cursor: pointer;
     margin-right: 24px;
+  }
+}
+
+.new {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  background-color: $primary;
+  font-family: $font;
+  font-weight: 500;
+  color: $blank;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 12px 0px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 15px;
+  &::selection {
+    background-color: $primary;
+  }
+  &:active,
+  &:focus {
+    scale: 0.8;
+  }
+  &:active,
+  &:focus {
+    border: none;
+    outline: none;
+    text-decoration: none;
+    background-color: $primary;
+    color: $blank;
+  }
+}
+
+.account {
+  margin-bottom: 10px;
+}
+
+.delete {
+  background-color: $red;
+  color: $blank;
+  font-family: $font;
+  font-weight: 500;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 7px;
+  outline: none;
+  cursor: pointer;
+  margin-top: 10px;
+  &:active,
+  &:focus {
+    scale: 0.8;
+  }
+  &::selection {
+    background-color: $red;
+  }
+  &:active,
+  &:focus {
+    border: none;
+    outline: none;
+    text-decoration: none;
+    background-color: $red;
+    color: $blank;
   }
 }
