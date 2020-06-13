@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import moment from "moment";
 
+import { ReactComponent as Refresh } from './refresh.svg';
+
 var formatDateTime = (datetime) => {
   var dateObj = new Date(datetime);
   var momentObj = moment(dateObj);
@@ -28,6 +30,7 @@ export default function Connected(props) {
             <div className="row_start">
               <p className="row_date">Today</p>
             </div>
+            <Refresh onClick={()=>props.refresh()}/>
           </div>,
           <div className="row">
             <div className="row_divider"></div>

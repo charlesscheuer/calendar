@@ -234,6 +234,7 @@ export default class Connected extends Component {
             this.setState({ configureCalendars: true });
           }}
           tomorrowsEvents={tomorrowsEvents}
+          refresh={() => this.setState({ loading: true })}
         />
       );
     }
