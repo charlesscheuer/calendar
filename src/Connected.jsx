@@ -207,6 +207,12 @@ export default class Connected extends Component {
     }, 5000);
   }
 
+  refresh = async () => {
+    this.setState({ loading: true })
+    await this.getCalendars();
+    await this.fetchLatestEvents();
+  }
+
   renderProper = () => {
     const {
       configureCalendars,
@@ -235,7 +241,7 @@ export default class Connected extends Component {
             this.setState({ configureCalendars: true });
           }}
           tomorrowsEvents={tomorrowsEvents}
-          refresh={() => this.setState({ loading: true })}
+          refresh={this.refresh}
         />
       );
     }
