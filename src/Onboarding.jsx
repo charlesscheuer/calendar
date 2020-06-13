@@ -25,6 +25,7 @@ const logos = [GoogleCalendarLogo, OutlookLogo];
 
 const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
+// const backend_url = "http://localhost:3000/nextcallfyi/";
 
 const emailUs = () => {
   window.open("mailto:hi@charlesscheuer.com");
