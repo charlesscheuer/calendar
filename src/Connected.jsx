@@ -90,7 +90,6 @@ export default class Connected extends Component {
             let todaysEvents = that.sortEvents(todays);
             chrome.storage.local.set({ todaysEvents }, function () {});
             chrome.storage.local.set({ tomorrowsEvents }, function () {});
-            console.log(tomorrows, tomorrowsEvents, "sorted");
             that.setState({ tomorrowsEvents });
             that.setState({ todaysEvents });
             that.setState({ loading: false });

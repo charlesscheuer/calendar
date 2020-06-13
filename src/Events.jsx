@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import moment from "moment";
 
-import { ReactComponent as Refresh } from './refresh.svg';
+import Refresh from "./Refresh";
 
 var formatDateTime = (datetime) => {
   var dateObj = new Date(datetime);
@@ -24,13 +24,22 @@ export default function Connected(props) {
           configure calendars
         </p>
       </div>
+      {todaysEvents && todaysEvents.length < 1 && tomorrowsEvents.length < 1 && (
+        <div className="row">
+          <p className="description" style={{ color: "#0c334d;" }}>
+            It looks like you don't have any upcoming events... Please reload
+            calendar events.
+          </p>
+          <Refresh refresh={props.refresh} />
+        </div>
+      )}
       {todaysEvents &&
         todaysEvents.length > 0 && [
           <div className="row">
             <div className="row_start">
               <p className="row_date">Today</p>
             </div>
-            <Refresh onClick={()=>props.refresh()}/>
+            <Refresh refresh={props.refresh} />
           </div>,
           <div className="row">
             <div className="row_divider"></div>
@@ -66,6 +75,9 @@ export default function Connected(props) {
             <div className="row_start">
               <p className="row_date">Tomorrow</p>
             </div>
+            {todaysEvents && todaysEvents.length < 1 && (
+              <Refresh refresh={props.refresh} />
+            )}
           </div>,
           <div className="row">
             <div className="row_divider"></div>
