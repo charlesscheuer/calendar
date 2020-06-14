@@ -43,7 +43,6 @@ export default class Connected extends Component {
           return response.json();
         })
         .then(function (data) {
-          console.log(data, "Was data");
           if (data.length === 0) {
             chrome.storage.local.set({ todaysEvents: [] }, function () {});
             chrome.storage.local.set({ tomorrowsEvents: [] }, function () {
@@ -53,7 +52,6 @@ export default class Connected extends Component {
           if (data.length !== 0 && data) {
             var todays = [];
             var tomorrows = [];
-            console.log("data", data);
             data.forEach((calendar) => {
               // data is an array of objects
               // each object is named like gcal-1
@@ -61,11 +59,9 @@ export default class Connected extends Component {
               // calendar is an object
               var calId = Object.keys(calendar)[0];
               var calType = null;
-              console.log("calendars", that.state.calendars);
               that.state.calendars.forEach((cal) => {
                 if (cal.id === calId) calType = cal.type;
               });
-              console.log("calendar", calendar);
               calendar[calId].forEach((event) => {
                 if (calType === "Microsoft") {
                   event.start = new Date(event.start + "Z");
@@ -163,7 +159,6 @@ export default class Connected extends Component {
       })
       .then(function (data) {
         let calendars = [];
-        console.log("here", Object.keys(data));
         Object.keys(data).forEach((calendarID) => {
           if (data[calendarID].email && data[calendarID].connected) {
             const newItem = { ...data[calendarID], id: calendarID };
@@ -172,7 +167,6 @@ export default class Connected extends Component {
         });
         chrome.storage.local.set({ calendars: calendars }, function () {});
         that.setState({ calendars });
-        console.log("set calendars", calendars);
       });
   }
 
@@ -181,7 +175,6 @@ export default class Connected extends Component {
       chrome.storage.local.get(
         ["todaysEvents", "tomorrowsEvents", "calendars"],
         (result) => {
-          console.log("result....", result["calendars"]);
           if (
             result["calendars"] ||
             result["todaysEvents"] ||

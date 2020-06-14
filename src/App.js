@@ -36,9 +36,6 @@ class App extends Component {
   };
 
   addNewCalendar = (calendars) => {
-    console.log("reached add new");
-    console.log(calendars, "FROM ADDNEWCALS FUNCTiONS");
-    console.log(calendars.length)
     this.setState({
       addNewCalendar: true,
       numCalendars: calendars.length,

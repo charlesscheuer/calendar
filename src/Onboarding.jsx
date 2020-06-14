@@ -17,10 +17,8 @@ const emailUs = () => {
 export default class Onboarding extends Component {
   constructor(props) {
     super(props);
-    console.log("rendering onboarding...");
     chrome.storage &&
     chrome.storage.local.get(["uuid"], (result) => {
-      console.log(result, "onboard")
       if (result && result["uuid"]) {
         this.state = {
           uuid: result["uuid"],
