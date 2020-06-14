@@ -11,7 +11,7 @@ var formatDateTime = (datetime) => {
 };
 
 const emailUs = () => {
-  window.open("mailto:hi@charlesscheuer.com");
+  window.open("mailto:nextcall.xyz@gmail.com");
 };
 
 export default function Connected(props) {

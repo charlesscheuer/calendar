@@ -11,7 +11,7 @@ const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
 
 const emailUs = () => {
-  window.open("mailto:hi@charlesscheuer.com");
+  window.open("mailto:nextcall.xyz@gmail.com");
 };
 
 export default class Onboarding extends Component {

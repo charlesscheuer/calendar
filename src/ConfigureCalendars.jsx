@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ConfigureCalendars(props) {
   const emailUs = () => {
-    window.open("mailto:hi@charlesscheuer.com");
+    window.open("mailto:nextcall.xyz@gmail.com");
   };
 
   return (
