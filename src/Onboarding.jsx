@@ -112,9 +112,9 @@ export default class Onboarding extends Component {
                 })}
               </div>
             </li>
-            <li className="instruction">
+            {/* <li className="instruction">
               Allow notifications if you want reminders
-            </li>
+            </li> */}
             <li className="instruction">
               Click our extension icon to check your next calls!
             </li>
