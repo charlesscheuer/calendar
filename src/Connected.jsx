@@ -92,8 +92,8 @@ export default class Connected extends Component {
             chrome.storage.local.set({ tomorrowsEvents }, function () {});
             that.setState({ tomorrowsEvents });
             that.setState({ todaysEvents });
-            that.setState({ loading: false });
           }
+          that.setState({ loading: false });
           clearInterval(that.intervalId);
         });
     }
