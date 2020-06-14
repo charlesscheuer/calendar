@@ -3,29 +3,12 @@ import GoogleCalendarLogo from "./Logos/Google_Calendar.png";
 import OutlookLogo from "./Logos/Microsoft_Outlook_2013_logo.png";
 import { v4 as uuid } from "uuid";
 
-const list = [
-  "Connect with google calendar",
-  "allow notifications if you want reminders",
-  "Click our extension icon to check your next calls!",
-];
-
 const logos = [GoogleCalendarLogo, OutlookLogo];
 
 /*global chrome*/
-// <li className="instruction">
-//               <a
-//                 onClick={() => this.connectCalendar()}
-//                 className="cleanLink"
-//                 href="#0"
-//               >
-//                 Connect
-//               </a>{" "}
-//               your google calendar
-//             </li>
 
 const backend_url =
   "https://us-central1-calendar-276823.cloudfunctions.net/nextcallfyi/";
-// const backend_url = "http://localhost:3000/nextcallfyi/";
 
 const emailUs = () => {
   window.open("mailto:hi@charlesscheuer.com");
