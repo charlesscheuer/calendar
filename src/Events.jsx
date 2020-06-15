@@ -19,7 +19,7 @@ export default function Connected(props) {
   return (
     <div className="App">
       <div className="row">
-        <h1>Next meetings</h1>
+        <h1>NextCall</h1>
         <p onClick={() => props.configureCalendars()} className="configure">
           configure calendars
         </p>
