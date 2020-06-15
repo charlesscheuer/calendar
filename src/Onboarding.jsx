@@ -60,6 +60,8 @@ export default class Onboarding extends Component {
         });
     } else {
       window.open(
+        // TODO: Fix this
+        // `https://nextcall.xyz/microsoft/connect?uuid=${body.uuid}&cal_id=${body.cal_id}`
         backend_url + `microsoft/connect/${body.uuid}/${body.cal_id}`
       );
     }
