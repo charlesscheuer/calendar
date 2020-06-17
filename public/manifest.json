@@ -1,14 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "calendar app",
-  "version": "0.1",
+  "name": "NextCall.xyz",
+  "description" : "One click join any meeting",
+  "version": "0.0.0.1",
   "browser_action": {
     "default_title": "My extension",
     "default_popup": "index.html"
   },
   "content_scripts": [
     {
-      "matches": ["https://imfree.fyi/shownext"],
+      "matches": ["https://nextcall.xyz/"],
       "css": ["/static/css/main.css"],
       "js": ["/static/js/main.js"]
     }
