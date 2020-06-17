@@ -4,7 +4,7 @@
   "description" : "One click join any meeting",
   "version": "0.0.0.1",
   "browser_action": {
-    "default_title": "My extension",
+    "default_title": "NextCall",
     "default_popup": "index.html"
   },
   "content_scripts": [
