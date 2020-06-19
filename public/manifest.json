@@ -7,13 +7,7 @@
     "default_title": "NextCall",
     "default_popup": "index.html"
   },
-  "content_scripts": [ {
-    "matches": ["https://nextcall.xyz/"],
-    "css": ["/static/css/main.css"],
-    "js": ["/static/js/main.js"]
-  } ],
   "permissions": [
-    "notifications",
     "storage"
   ]
 }
