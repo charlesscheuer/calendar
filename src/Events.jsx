@@ -28,7 +28,7 @@ export default function Connected(props) {
         <div className="row">
           <p className="description" style={{ color: "#0c334d;" }}>
             It looks like you don't have any upcoming events... Please reload
-            calendar events.
+            your calendar events.
           </p>
           <Refresh refresh={props.refresh} />
         </div>

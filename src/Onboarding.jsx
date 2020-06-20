@@ -18,19 +18,19 @@ export default class Onboarding extends Component {
   constructor(props) {
     super(props);
     chrome.storage &&
-    chrome.storage.local.get(["uuid"], (result) => {
-      if (result && result["uuid"]) {
-        this.state = {
-          uuid: result["uuid"],
-          cal_id: `Calendar_${props.numCalendars}`,
-        };
-      } else {
-        this.state = {
-          uuid: uuid(),
-          cal_id: `Calendar_${props.numCalendars}`,
-        };
-      }
-    })
+      chrome.storage.local.get(["uuid"], (result) => {
+        if (result && result["uuid"]) {
+          this.state = {
+            uuid: result["uuid"],
+            cal_id: `Calendar_${props.numCalendars}`,
+          };
+        } else {
+          this.state = {
+            uuid: uuid(),
+            cal_id: `Calendar_${props.numCalendars}`,
+          };
+        }
+      });
   }
 
   connectCalendar = (google) => {
@@ -98,16 +98,23 @@ export default class Onboarding extends Component {
               <div className="logos">
                 {logos.map((logo, index) => {
                   return (
-                    <img
-                      src={logo}
-                      className="logos_img"
+                    <div
+                      className="calendarButton"
                       onClick={() => this.connectCalendar(index === 0)}
-                      alt={
-                        index === 0
-                          ? "Connect Google calendar"
-                          : "Connect Outlook calendar"
-                      }
-                    />
+                    >
+                      <img
+                        src={logo}
+                        className="logos_img"
+                        alt={
+                          index === 0
+                            ? "Connect Google calendar"
+                            : "Connect Outlook calendar"
+                        }
+                      />
+                      <p className="join">
+                        {index === 0 ? "Google Calendar" : "Outlook Calendar"}
+                      </p>
+                    </div>
                   );
                 })}
               </div>

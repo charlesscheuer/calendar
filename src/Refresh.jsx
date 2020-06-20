@@ -11,8 +11,8 @@ export default function Refresh(props) {
       role="img"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      height="15px"
-      width="15px"
+      height="24px"
+      width="24px"
       style={{ cursor: "pointer" }}
       onClick={() => props.refresh()}
     >
