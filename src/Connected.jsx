@@ -71,7 +71,7 @@ export default class Connected extends Component {
                 }
                 event.calId = calId;
                 if (
-                  isToday(event.start) &&
+                  isToday(moment(event.start)) &&
                   !moment().isAfter(moment(event.start).add(30, "m"))
                 ) {
                   todays = [...todays, event];
@@ -199,10 +199,10 @@ export default class Connected extends Component {
   }
 
   refresh = async () => {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     await this.getCalendars();
     await this.fetchLatestEvents();
-  }
+  };
 
   renderProper = () => {
     const {

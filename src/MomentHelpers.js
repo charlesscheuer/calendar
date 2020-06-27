@@ -3,7 +3,7 @@ import moment from "moment";
 export const isToday = (datetime) => {
   var dateObj = new Date(datetime);
   var momentObj = moment(dateObj);
-  return momentObj.isSame(new Date(), "day") && momentObj.isAfter();
+  return momentObj.isSame(new Date(), "day");
 };
 
 export const isTomorrow = (datetime) => {
