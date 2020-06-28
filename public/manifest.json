@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "NextCall.xyz",
-  "description": "One click join any meeting",
-  "version": "0.0.0.1",
+  "description": "A chrome extension to join upcoming calls in one click.",
+  "version": "0.0.0.3",
   "browser_action": {
     "default_title": "NextCall",
     "default_popup": "index.html"
